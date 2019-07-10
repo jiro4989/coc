@@ -120,3 +120,7 @@ suite "proc parsePcUrls":
      "https://charasheet.vampire-blood.net/m4df7d6cb4439ac774c29e7c2dcf7cd2f",
      "https://charasheet.vampire-blood.net/m1d2d6e28548626b6580488bea972ed9b",
    ]
+
+suite "proc parsePcTag":
+  test "Parse":
+   check p1html.parsePcTag == @["jiro"]

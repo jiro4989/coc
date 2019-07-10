@@ -98,6 +98,13 @@ proc parsePcUrls*(html: string): seq[string] =
         result.add(url)
   result[2..^1]
 
+proc parsePcTag*(html: string): seq[string] =
+  for elem in html.getTags("a", attrClass="label label-default"):
+    let text = elem.replace(peg"""\<\/?a[^\>]*\>""", "")
+                   .replace(peg"""\<\/?span[^\>]*\>""", "")
+                   .strip
+    result.add(text)
+
 proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
@@ -182,7 +189,8 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
       pcParam.add(parts(html, "行動技能"))
       pcParam.add(parts(html, "交渉技能"))
       pcParam.add(parts(html, "知識技能"))
-      jsonList.add("{\"name\":\"" & pcName & "\", \"params\":{" & pcParam.join(",") & "}}")
+      let tags = html.parsePcTag
+      jsonList.add("{\"name\":" & $$pcName & ", \"tags\":" & $$tags & ", \"url\":" & $$url & ", \"params\":{" & pcParam.join(",") & "}}")
       
       # echo "\"" & "知識技能" & "\"", ":", html.parseArts(" & ")
       # echo "}"
@@ -190,7 +198,7 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
     sleep(1)
   case format
   of "json":
-    echo "[", jsonList.join(","), "]"
+    echo "[\n", jsonList.join(",\n"), "]"
 
 when isMainModule:
   import cligen
