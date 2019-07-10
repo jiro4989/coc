@@ -28,6 +28,10 @@ suite "proc parseAbility":
                                          hp: 16, mp: 11, initSan: 55, idea: 70,
                                          luk: 55, knowledge: 60)[]
 
+suite "proc parsePcName":
+  test "Parse":
+    check p1html.parsePcName == "神田 真（かんだ まこと）"
+
 suite "proc parseArts":
   test "戦闘技能":
     let ret = p1html.parseArts("戦闘技能")

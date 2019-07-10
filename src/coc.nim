@@ -60,18 +60,28 @@ proc parseArts*(html, header: string): Table[string, int] =
             k = k.replace(peg"""\(.*""", "")
           let v = sumElem[0].parseAttrValues[0]
           result[k] = v
+  
+proc parsePcName*(html: string): string =
+  for head in html.getTags("div"):
+    if "head_breadcrumb" in head:
+      result = head.getTags("a")[^1].replace(peg"""\<\/?[^\>]+\>""", "")
+      return
 
-proc scrape(url: seq[string]): int =
+proc scrape(format="csv", url: seq[string]): int =
+  let headers = ["探索者名", "STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識"]
+  echo headers.join(",")
+
   let u = "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb"
   let client = newHttpClient()
   let resp = client.get(u)
   let body = resp.body
 
-  let ability = body.parseAbility
-  echo ability[]
+  let pcName = body.parsePcName
 
-when isMainModule and false:
+  let a = body.parseAbility
+  let param = [a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
+  echo pcName & "," & param.join(",")
+
+when isMainModule:
   import cligen
   dispatch(scrape)
-else:
-  discard scrape(@[])
