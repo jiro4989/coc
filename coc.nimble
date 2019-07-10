@@ -13,4 +13,15 @@ bin           = @["coc"]
 
 requires "nim >= 0.20.0"
 requires "cligen >= 0.9.32"
-requires "nimquery >= 1.2.2"
+
+task ci, "Run CI":
+  exec "nim -v"
+  exec "nimble -v"
+  exec "nimble install -Y"
+  exec "nimble test -Y"
+  #exec "nimble docs -Y"
+  exec "nimble build -d:release -Y"
+  #exec "nimble examples"
+  #exec "nimble buildjs"
+  #exec "./bin/nimjson -h"
+  #exec "./bin/nimjson -v"
