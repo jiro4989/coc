@@ -1,0 +1,222 @@
+:toc: left
+:sectnums:
+
+= clitools
+
+clitools is a commands.
+
+**Developing now**
+
+== Development
+
+nim -v
+
+  Nim Compiler Version 0.20.0 [Linux: amd64]
+  Compiled at 2019-06-06
+  Copyright (c) 2006-2019 by Andreas Rumpf
+
+  git hash: e7471cebae2a404f3e4239f199f5a0c422484aac
+  active boot switches: -d:release
+
+nimble -v
+
+  nimble v0.10.2 compiled at 2019-06-15 22:10:02
+  git hash: couldn't determine git hash
+
+== Usage
+
+=== flat
+
+Flats.
+
+[source,bash]
+----
+$ seq 5 | flat
+1 2 3 4 5
+
+$ seq 5 | flat -n 2
+1 2
+3 4
+5
+
+$ seq 5 | flat -d ,
+1,2,3,4,5
+----
+
+=== rep
+
+Repeat words.
+
+[source,bash]
+----
+$ rep 5 A
+AAAAA
+
+$ echo 'A B' | rep 5 -i
+A BA BA BA BA B
+
+$ rep 1 3 5 A
+A
+AAA
+AAAAA
+
+$ rep $(seq 5) A
+A
+AA
+AAA
+AAAA
+AAAAA
+----
+
+=== ucut
+
+Unicode cut.
+
+[source,bash]
+----
+$ echo １あ２あ３ | ucut -d あ -f 1,2
+１ ２
+----
+
+=== codepoint
+
+Prints code point.
+
+[source,bash]
+----
+% echo hello world | codepoint
+char code_point code_point(hex)
+h 104 \U68
+e 101 \U65
+l 108 \U6C
+l 108 \U6C
+o 111 \U6F
+  32 \U20
+w 119 \U77
+o 111 \U6F
+r 114 \U72
+l 108 \U6C
+d 100 \U64
+
+% ojichat | codepoint
+char code_point code_point(hex)
+今 20170 \U4ECA
+晴 26228 \U6674
+ち 12385 \U3061
+ゃ 12419 \U3083
+ん 12435 \U3093
+、 12289 \U3001
+愛 24859 \U611B
+し 12375 \U3057
+い 12356 \U3044
+な 12394 \U306A
+ぁ 12353 \U3041
+も 12418 \U3082
+う 12358 \U3046
+（ 65288 \UFF08
+笑 31505 \U7B11
+） 65289 \UFF09
+💕 128149 \U1F495
+😚 128538 \U1F61A
+😃 128515 \U1F603
+☀ 9728 \U2600
+  32 \U20
+今 20170 \U4ECA
+か 12363 \U304B
+ら 12425 \U3089
+寝 23517 \U5BDD
+よ 12424 \U3088
+う 12358 \U3046
+と 12392 \U3068
+思 24605 \U601D
+っ 12387 \U3063
+て 12390 \U3066
+た 12383 \U305F
+の 12398 \U306E
+に 12395 \U306B
+、 12289 \U3001
+目 30446 \U76EE
+が 12364 \U304C
+覚 35226 \U899A
+め 12417 \U3081
+ち 12385 \U3061
+ゃ 12419 \U3083
+っ 12387 \U3063
+た 12383 \U305F
+よ 12424 \U3088
+😘 128536 \U1F618
+ど 12393 \U3069
+う 12358 \U3046
+し 12375 \U3057
+て 12390 \U3066
+く 12367 \U304F
+れ 12428 \U308C
+る 12427 \U308B
+ン 12531 \U30F3
+ダ 12480 \U30C0
+❗ 10071 \U2757
+💕 128149 \U1F495
+( 40 \U28
+^ 94 \U5E
+_ 95 \U5F
+^ 94 \U5E
+) 41 \U29
+----
+
+=== align
+
+Align texts.
+
+[source,bash]
+----
+% echo $'123\nあいう\nえお' | align right 
+   123
+あいう
+  えお
+
+% echo $'1234\nああああああ\nうえお' | align center -p =  
+====1234====
+ああああああ
+===うえお===
+----
+
+=== aggr
+
+[source,bash]
+----
+----
+
+=== subnet
+
+Subnet mask. Copied from https://github.com/jiro4989/subcal.nim[subcal] repository.
+
+[source,bash]
+----
+$ subnet 100.100.200.1/24
+100.100.200.1	24	01100100011001001100100000000001	11111111111111111111111100000000
+
+$ subnet -Hc 100.100.200.1/24
+IPAddr	CIDR	Bin	Mask
+100.100.200.1	24	01100100011001001100100000000001	11111111111111111111111100000000
+
+$ subnet 0-32.100.200.1/24
+$ subnet -32.100.200.1/24
+$ subnet 64-.100.200.1/24
+$ subnet 128-.100.200.1/24
+$ subnet 100.100.200.0,8,16,24/24
+----
+
+== Install
+
+[source,bash]
+git clone https://github.com/jiro4989/clitools
+cd clitools
+nimble install clitools
+
+or
+
+Download binary from https://github.com/jiro4989/clitools/releases[Releases].
+
+== License
+
+MIT
