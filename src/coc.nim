@@ -1,4 +1,4 @@
-import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils
+import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, tables
 
 type
   Ability* = ref object
@@ -22,12 +22,15 @@ proc getTags*(html, tag: string): seq[string] =
     if 0 < nestCount:
       elem.add(c)
 
+proc parseAttrValues*(elem: string): seq[int] =
+  elem.findAll(peg""" value\=\"\d+\" """)
+      .mapIt(it.replace(peg""" [a-zA-Z"=] """, "").parseInt)
+
 proc parseAbility*(html: string): Ability =
   new result
   for elem in html.getTags("tr"):
     if "現在値" in elem:
-      let nums = elem.findAll(peg""" value\=\"\d+\" """)
-                     .mapIt(it.replace(peg""" [a-zA-Z"=] """, "").parseInt)
+      let nums = elem.parseAttrValues
       result = Ability(
         str: nums[0],
         con: nums[1],
@@ -44,6 +47,19 @@ proc parseAbility*(html: string): Ability =
         luk: nums[12],
         knowledge: nums[13])
       return
+
+proc parseArts*(html, header: string): Table[string, int] =
+  for elem in html.getTags("table"):
+    if header in elem:
+      for tr in elem.getTags("tr"):
+        let sumElem = tr.getTags("td").filterIt("sumTD" in it)
+        if 0 < sumElem.len:
+          var k = tr.getTags("th")[0][4..^6]
+          # 括弧内に任意の文字列を入れられる要素の修正
+          if "input" in k:
+            k = k.replace(peg"""\(.*""", "")
+          let v = sumElem[0].parseAttrValues[0]
+          result[k] = v
 
 proc scrape(url: seq[string]): int =
   let u = "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb"
