@@ -109,9 +109,9 @@ suite "proc parseArts":
 
 let listHtml = readFile("tests/list1.html")
 
-suite "proc parsePcLinks":
+suite "proc parsePcUrls":
   test "Parse":
-   check listHtml.parsePcLinks == @[
+   check listHtml.parsePcUrls == @[
      "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb",
      "https://charasheet.vampire-blood.net/m3c43564fef578aec972f0c8302fdd84a",
      "https://charasheet.vampire-blood.net/me8756567322569dc7ba24620ecbde76e",

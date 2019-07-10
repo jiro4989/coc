@@ -1,4 +1,5 @@
 import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, tables
+from os import sleep
 
 type
   Ability* = ref object
@@ -81,7 +82,7 @@ proc parsePcName*(html: string): string =
       result = head.getTags("a")[^1].replace(peg"""\<\/?[^\>]+\>""", "")
       return
 
-proc parsePcLinks*(html: string): seq[string] =
+proc parsePcUrls*(html: string): seq[string] =
   ## タグページからPCページのURLのリストを取得する。
   for elem in html.getTags("div", attrClass="pc_datas"):
     for elem2 in elem.getTags("div", attrClass="title"):
@@ -92,20 +93,31 @@ proc parsePcLinks*(html: string): seq[string] =
         result.add(url)
   result[2..^1]
 
-proc scrape(format="csv", url: seq[string]): int =
+proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
   let headers = ["探索者名", "STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識"]
   echo headers.join(",")
-
-  let u = "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb"
+  
   let client = newHttpClient()
-  let resp = client.get(u)
-  let body = resp.body
 
-  let pcName = body.parsePcName
+  # リスト指定があるときは、URLは探索者のリストページとみなす。
+  # リストページから探索者のページのURLを取得し、それを後続のスクレイピング対象
+  # ページとする。
+  var nUrls = urls # 引数でvar指定するとエラーになるため暫定対応
+  if list:
+    var pcUrls: seq[string]
+    for url in urls:
+      let links = client.get(url).body.parsePcUrls
+      pcUrls.add(links)
+    nUrls = pcUrls
 
-  let a = body.parseAbility
-  let param = [a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
-  echo pcName & "," & param.join(",")
+  # 探索者のページから能力値を取得して出力する。
+  for url in nUrls:
+    let html = client.get(url).body
+    let pcName = html.parsePcName
+    let a = html.parseAbility
+    let param = [a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
+    echo pcName & "," & param.join(",")
+  sleep(1)
 
 when isMainModule:
   import cligen
