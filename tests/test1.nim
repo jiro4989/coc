@@ -18,6 +18,8 @@ suite "proc getTags":
     <tr> 1 </tr>
     <tr> 2 </tr>
     <tr> 3 </tr>""".getTags("tr") == @["<tr> 1 </tr>", "<tr> 2 </tr>", "<tr> 3 </tr>"]
+  test "Set class attributes":
+    check """<div><div class="test">Elem</div></div>""".getTags("div", attrClass="test") == @["""<div class="test">Elem</div>"""]
 
 let p1html = readFile("tests/p1.html")
 
@@ -104,3 +106,17 @@ suite "proc parseArts":
     check ret["法律"] == 5
     check ret["薬学"] == 1
     check ret["歴史"] == 70
+
+let listHtml = readFile("tests/list1.html")
+
+suite "proc parsePcLinks":
+  test "Parse":
+   check listHtml.parsePcLinks == @[
+     "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb",
+     "https://charasheet.vampire-blood.net/m3c43564fef578aec972f0c8302fdd84a",
+     "https://charasheet.vampire-blood.net/me8756567322569dc7ba24620ecbde76e",
+     "https://charasheet.vampire-blood.net/md0b578e35b9772be5d90d3cb1a73118e",
+     "https://charasheet.vampire-blood.net/mb001af1a4d0f547fd9392976df18615a",
+     "https://charasheet.vampire-blood.net/m4df7d6cb4439ac774c29e7c2dcf7cd2f",
+     "https://charasheet.vampire-blood.net/m1d2d6e28548626b6580488bea972ed9b",
+   ]

@@ -4,7 +4,7 @@ type
   Ability* = ref object
     str*, con*, pow*, dex*, app*, siz*, int2*, edu*, hp*, mp*, initSan*, idea*, luk*, knowledge*: int
 
-proc getTags*(html, tag: string): seq[string] =
+proc getTags*(html, tag: string, attrClass=""): seq[string] =
   var nestCount = 0
   var elem: string
   for i, c in html:
@@ -12,8 +12,22 @@ proc getTags*(html, tag: string): seq[string] =
     if html.len <= max:
       break
     if html[i..i+tag.len] == ("<" & tag):
-      inc(nestCount)
-    if html[i..max] == ("</" & tag & ">"):
+      # class要素が開始タグ内に存在するかの検証
+      var startTag = ""
+      var pos = i
+      while true:
+        if html.len <= pos:
+          break
+        let b = html[pos]
+        startTag.add(b)
+        if b == '>':
+          break
+        inc(pos)
+
+      let attrc = "class=\"" & attrClass & "\""
+      if (attrClass == "") or (attrc in startTag):
+        inc(nestCount)
+    if 0 < nestCount and html[i..max] == ("</" & tag & ">"):
       dec(nestCount)
       if nestCount == 0:
         elem.add(html[i..max])
@@ -66,6 +80,17 @@ proc parsePcName*(html: string): string =
     if "head_breadcrumb" in head:
       result = head.getTags("a")[^1].replace(peg"""\<\/?[^\>]+\>""", "")
       return
+
+proc parsePcLinks*(html: string): seq[string] =
+  ## タグページからPCページのURLのリストを取得する。
+  for elem in html.getTags("div", attrClass="pc_datas"):
+    for elem2 in elem.getTags("div", attrClass="title"):
+      for elem3 in elem2.getTags("a"):
+        let url = elem3.findAll(peg""" href\=\"[^\"]+\" """)[0]
+                       .split("=")[1]
+                       .replace("\"", "")
+        result.add(url)
+  result[2..^1]
 
 proc scrape(format="csv", url: seq[string]): int =
   let headers = ["探索者名", "STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識"]
