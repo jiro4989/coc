@@ -6,6 +6,7 @@ type
     str*, con*, pow*, dex*, app*, siz*, int2*, edu*, hp*, mp*, initSan*, idea*, luk*, knowledge*: int
 
 proc getTags*(html, tag: string, attrClass=""): seq[string] =
+  ## HTMLのタグ要素をタグを含めて取得
   var nestCount = 0
   var elem: string
   for i, c in html:
@@ -38,10 +39,12 @@ proc getTags*(html, tag: string, attrClass=""): seq[string] =
       elem.add(c)
 
 proc parseAttrValues*(elem: string): seq[int] =
+  ## HTMLからvalue属性の値を取得
   elem.findAll(peg""" value\=\"\d+\" """)
       .mapIt(it.replace(peg""" [a-zA-Z"=] """, "").parseInt)
 
 proc parseAbility*(html: string): Ability =
+  ## 探索者の能力値を取得
   new result
   for elem in html.getTags("tr"):
     if "現在値" in elem:
@@ -64,6 +67,7 @@ proc parseAbility*(html: string): Ability =
       return
 
 proc parseArts*(html, header: string): Table[string, int] =
+  ## XX技能の表から能力値を取得
   for elem in html.getTags("table"):
     if header in elem:
       for tr in elem.getTags("tr"):
@@ -77,6 +81,7 @@ proc parseArts*(html, header: string): Table[string, int] =
           result[k] = v
   
 proc parsePcName*(html: string): string =
+  ## 探索者名を取得
   for head in html.getTags("div"):
     if "head_breadcrumb" in head:
       result = head.getTags("a")[^1].replace(peg"""\<\/?[^\>]+\>""", "")
