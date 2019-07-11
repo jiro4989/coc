@@ -9,7 +9,7 @@ type
     tags*: seq[string]
     url*: string
     param*: Param
-  Param* = ref object
+  Param* = object
     ability*: Ability
     battleArts*: BattleArts
     findArts*: FindArts
@@ -19,7 +19,7 @@ type
   CValue* = object
     name*: string
     num*: int
-  Ability* = ref object
+  Ability* = object
     str*: CValue    ## STR
     con*: CValue    ## CON
     pow*: CValue    ## POW
@@ -34,7 +34,7 @@ type
     idea*: CValue    ## アイデア
     luk*: CValue    ## 幸運
     knowledge*: CValue    ## 知識
-  BattleArts* = ref object
+  BattleArts* = object
     avoidance*: CValue    ## 回避
     kick*: CValue    ## キック
     hold*: CValue    ## 組み付き
@@ -47,7 +47,7 @@ type
     shotGun*: CValue    ## ショットガン
     machineGun*: CValue    ## マシンガン
     rifle*: CValue    ## ライフル
-  FindArts* = ref object
+  FindArts* = object
     firstAid*: CValue    ## 応急手当
     lockPicking*: CValue    ## 鍵開け
     hide*: CValue    ## 隠す
@@ -60,7 +60,7 @@ type
     climbing*: CValue    ## 登攀
     library*: CValue    ## 図書館
     aim*: CValue    ## 目星
-  ActionArts* = ref object
+  ActionArts* = object
     driving*: CValue    ## 運転
     repairingMachine*: CValue    ## 機械修理
     operatingHeavyMachine*: CValue    ## 重機械操作
@@ -72,13 +72,13 @@ type
     repairingElectric*: CValue    ## 電気修理
     navigate*: CValue    ## ナビゲート
     disguise*: CValue    ## 変装
-  NegotiationArts* = ref object
+  NegotiationArts* = object
     winOver*: CValue    ## 言いくるめ
     credit*: CValue    ## 信用
     haggle*: CValue    ## 値切り
     argue*: CValue    ## 説得
     nativeLanguage*: CValue    ## 母国語
-  KnowledgeArts* = ref object
+  KnowledgeArts* = object
     medicine*: CValue    ## 医学
     occult*: CValue    ## オカルト
     chemistry*: CValue    ## 化学
@@ -139,7 +139,6 @@ proc parseAttrValues*(elem: string): seq[int] =
 
 proc parseAbility*(html: string): Ability =
   ## 探索者の能力値を取得
-  new result
   for elem in html.getTags("tr"):
     if "現在値" in elem:
       let nums = elem.parseAttrValues
@@ -241,13 +240,22 @@ proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: strin
       continue
     return
 
-proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, urls: seq[string]): int =
-  ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
-  ## 任意のフォーマットで出力する。
-  if debug:
-    addHandler(newConsoleLogger(lvlAll, useStderr=true))
-  debug &"main start:"
+proc fetchPcUrls(urls: seq[string], client: HttpClient, waitTime: int): seq[string] =
+  ## リストページから探索者のページのURLを取得し、それを後続のスクレイピング対象
+  ## ページとする。
+  for url in urls:
+    # リストページのURLのときはスクレイピングしてページを取得
+    if url.isListPageUrl:
+      debug &"{url} is a list url."
+      result.addPcPageUrlResursive(client, url, waitTime)
+      continue
+    # それ以外はそのまま追加
+    debug &"{url} is a pc url."
+    result.add(url)
 
+proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
+  ## 出力書式CSVとしてデータを処理する。
+  # CSVヘッダの出力
   let abilHeaders = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識", ]
   let btlHeaders = [ "回避", "キック", "組み付き", "こぶし（パンチ）", "頭突き", "投擲", "マーシャルアーツ", "拳銃", "サブマシンガン", "ショットガン", "マシンガン", "ライフル", ]
   let findHeaders = ["応急手当", "鍵開け", "隠す", "隠れる", "聞き耳", "忍び歩き", "写真術", "精神分析", "追跡", "登攀", "図書館", "目星", ]
@@ -261,143 +269,143 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
   headers.add(actHeaders)
   headers.add(negoHeaders)
   headers.add(intHeaders)
-  case format
-  of "csv":
-    echo headers.join(",")
-  of "json":
-    if not oneLine:
-      echo "["
-  
-  let client = newHttpClient()
+  echo headers.join(",")
 
-  # リストページから探索者のページのURLを取得し、それを後続のスクレイピング対象
-  # ページとする。
-  var nUrls = urls # 引数でvar指定するとエラーになるため暫定対応
-  var pcUrls: seq[string]
-  for url in urls:
-    # リストページのURLのときはスクレイピングしてページを取得
-    if url.isListPageUrl:
-      debug &"{url} is a list url."
-      pcUrls.addPcPageUrlResursive(client, url, waitTime)
-      continue
-    # それ以外はそのまま追加
-    debug &"{url} is a pc url."
-    pcUrls.add(url)
-  nUrls = pcUrls
-
-  # 探索者のページから能力値を取得して出力する。
-  for i, url in nUrls:
-    debug &"Scraping start: [{i+1}/{nUrls.len}] i = {i}, url = {url}"
+  # CSVボディを出力
+  for i, url in urls:
+    debug &"Scraping start: [{i+1}/{urls.len}] i = {i}, url = {url}"
 
     let html = client.get(url).body
 
     # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
     # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
     if not html.isCoCPcMakingPage:
-      debug &"{url} is not Coc url."
+      debug &"{url} is not CoC url."
       continue
 
     let pcName = html.parsePcName
     let a = html.parseAbility
-    case format
-    of "csv":
-      var param = @[
-        a.str.num,
-        a.con.num,
-        a.pow.num,
-        a.dex.num,
-        a.app.num,
-        a.siz.num,
-        a.int2.num,
-        a.edu.num,
-        a.hp.num,
-        a.mp.num,
-        a.initSan.num,
-        a.idea.num,
-        a.luk.num,
-        a.knowledge.num]
-      block:
-        let arts = html.parseArts("戦闘技能")
-        param.add(arts["回避"])    ## 回避
-        param.add(arts["キック"])    ## キック
-        param.add(arts["組み付き"])    ## 組み付き
-        param.add(arts["こぶし（パンチ）"])    ## こぶし（パンチ）
-        param.add(arts["頭突き"])    ## 頭突き
-        param.add(arts["投擲"])    ## 投擲
-        param.add(arts["マーシャルアーツ"])    ## マーシャルアーツ
-        param.add(arts["拳銃"])    ## 拳銃
-        param.add(arts["サブマシンガン"])    ## サブマシンガン
-        param.add(arts["ショットガン"])    ## ショットガン
-        param.add(arts["マシンガン"])    ## マシンガン
-        param.add(arts["ライフル"])    ## ライフル
-      
-      block:
-        let arts = html.parseArts("探索技能")
-        param.add(arts["応急手当"])    ## 応急手当
-        param.add(arts["鍵開け"])    ## 鍵開け
-        param.add(arts["隠す"])    ## 隠す
-        param.add(arts["隠れる"])    ## 隠れる
-        param.add(arts["聞き耳"])    ## 聞き耳
-        param.add(arts["忍び歩き"])    ## 忍び歩き
-        param.add(arts["写真術"])    ## 写真術
-        param.add(arts["精神分析"])    ## 精神分析
-        param.add(arts["追跡"])    ## 追跡
-        param.add(arts["登攀"])    ## 登攀
-        param.add(arts["図書館"])    ## 図書館
-        param.add(arts["目星"])    ## 目星
-      
-      block:
-        let arts = html.parseArts("行動技能")
-        param.add(arts["運転"])    ## 運転
-        param.add(arts["機械修理"])    ## 機械修理
-        param.add(arts["重機械操作"])    ## 重機械操作
-        param.add(arts["乗馬"])    ## 乗馬
-        param.add(arts["水泳"])    ## 水泳
-        param.add(arts["製作"])    ## 製作
-        param.add(arts["操縦"])    ## 操縦
-        param.add(arts["跳躍"])    ## 跳躍
-        param.add(arts["電気修理"])    ## 電気修理
-        param.add(arts["ナビゲート"])    ## ナビゲート
-        param.add(arts["変装"])    ## 変装
-      
-      block:
-        let arts = html.parseArts("交渉技能")
-        param.add(arts["言いくるめ"])    ## 言いくるめ
-        param.add(arts["信用"])    ## 信用
-        param.add(arts["値切り"])    ## 値切り
-        param.add(arts["説得"])    ## 説得
-        param.add(arts["母国語"])    ## 母国語
-      
-      block:
-        let arts = html.parseArts("知識技能")
-        param.add(arts["医学"])    ## 医学
-        param.add(arts["オカルト"])    ## オカルト
-        param.add(arts["化学"])    ## 化学
-        param.add(arts["クトゥルフ神話"])    ## クトゥルフ神話
-        param.add(arts["芸術"])    ## 芸術
-        param.add(arts["経理"])    ## 経理
-        param.add(arts["考古学"])    ## 考古学
-        param.add(arts["コンピューター"])    ## コンピューター
-        param.add(arts["心理学"])    ## 心理学
-        param.add(arts["人類学"])    ## 人類学
-        param.add(arts["生物学"])    ## 生物学
-        param.add(arts["地質学"])    ## 地質学
-        param.add(arts["電子工学"])    ## 電子工学
-        param.add(arts["天文学"])    ## 天文学
-        param.add(arts["博物学"])    ## 博物学
-        param.add(arts["物理学"])    ## 物理学
-        param.add(arts["法律"])    ## 法律
-        param.add(arts["薬学"])    ## 薬学
-        param.add(arts["歴史"])    ## 歴史
-      
-      echo pcName & "," & param.join(",")
-    of "json":
+    var param = @[
+      a.str.num,
+      a.con.num,
+      a.pow.num,
+      a.dex.num,
+      a.app.num,
+      a.siz.num,
+      a.int2.num,
+      a.edu.num,
+      a.hp.num,
+      a.mp.num,
+      a.initSan.num,
+      a.idea.num,
+      a.luk.num,
+      a.knowledge.num]
+    block:
+      let arts = html.parseArts("戦闘技能")
+      param.add(arts["回避"])    ## 回避
+      param.add(arts["キック"])    ## キック
+      param.add(arts["組み付き"])    ## 組み付き
+      param.add(arts["こぶし（パンチ）"])    ## こぶし（パンチ）
+      param.add(arts["頭突き"])    ## 頭突き
+      param.add(arts["投擲"])    ## 投擲
+      param.add(arts["マーシャルアーツ"])    ## マーシャルアーツ
+      param.add(arts["拳銃"])    ## 拳銃
+      param.add(arts["サブマシンガン"])    ## サブマシンガン
+      param.add(arts["ショットガン"])    ## ショットガン
+      param.add(arts["マシンガン"])    ## マシンガン
+      param.add(arts["ライフル"])    ## ライフル
+    
+    block:
+      let arts = html.parseArts("探索技能")
+      param.add(arts["応急手当"])    ## 応急手当
+      param.add(arts["鍵開け"])    ## 鍵開け
+      param.add(arts["隠す"])    ## 隠す
+      param.add(arts["隠れる"])    ## 隠れる
+      param.add(arts["聞き耳"])    ## 聞き耳
+      param.add(arts["忍び歩き"])    ## 忍び歩き
+      param.add(arts["写真術"])    ## 写真術
+      param.add(arts["精神分析"])    ## 精神分析
+      param.add(arts["追跡"])    ## 追跡
+      param.add(arts["登攀"])    ## 登攀
+      param.add(arts["図書館"])    ## 図書館
+      param.add(arts["目星"])    ## 目星
+    
+    block:
+      let arts = html.parseArts("行動技能")
+      param.add(arts["運転"])    ## 運転
+      param.add(arts["機械修理"])    ## 機械修理
+      param.add(arts["重機械操作"])    ## 重機械操作
+      param.add(arts["乗馬"])    ## 乗馬
+      param.add(arts["水泳"])    ## 水泳
+      param.add(arts["製作"])    ## 製作
+      param.add(arts["操縦"])    ## 操縦
+      param.add(arts["跳躍"])    ## 跳躍
+      param.add(arts["電気修理"])    ## 電気修理
+      param.add(arts["ナビゲート"])    ## ナビゲート
+      param.add(arts["変装"])    ## 変装
+    
+    block:
+      let arts = html.parseArts("交渉技能")
+      param.add(arts["言いくるめ"])    ## 言いくるめ
+      param.add(arts["信用"])    ## 信用
+      param.add(arts["値切り"])    ## 値切り
+      param.add(arts["説得"])    ## 説得
+      param.add(arts["母国語"])    ## 母国語
+    
+    block:
+      let arts = html.parseArts("知識技能")
+      param.add(arts["医学"])    ## 医学
+      param.add(arts["オカルト"])    ## オカルト
+      param.add(arts["化学"])    ## 化学
+      param.add(arts["クトゥルフ神話"])    ## クトゥルフ神話
+      param.add(arts["芸術"])    ## 芸術
+      param.add(arts["経理"])    ## 経理
+      param.add(arts["考古学"])    ## 考古学
+      param.add(arts["コンピューター"])    ## コンピューター
+      param.add(arts["心理学"])    ## 心理学
+      param.add(arts["人類学"])    ## 人類学
+      param.add(arts["生物学"])    ## 生物学
+      param.add(arts["地質学"])    ## 地質学
+      param.add(arts["電子工学"])    ## 電子工学
+      param.add(arts["天文学"])    ## 天文学
+      param.add(arts["博物学"])    ## 博物学
+      param.add(arts["物理学"])    ## 物理学
+      param.add(arts["法律"])    ## 法律
+      param.add(arts["薬学"])    ## 薬学
+      param.add(arts["歴史"])    ## 歴史
+    
+    echo pcName & "," & param.join(",")
+    sleep(waitTime)
+    debug &"Scraping end:"
+
+proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: bool) =
+  template wrapCall(body: untyped) =
+    if not oneLine:
+      echo "["
+    body
+    if not oneLine:
+      echo "]"
+
+  wrapCall:
+    for i, url in urls:
+      debug &"Scraping start: [{i+1}/{urls.len}] i = {i}, url = {url}"
+
+      let html = client.get(url).body
+
+      # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
+      # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
+      if not html.isCoCPcMakingPage:
+        debug &"{url} is not Coc url."
+        continue
+
+      let pcName = html.parsePcName
+      let a = html.parseAbility
       let id = url.split("/")[^1]
       let tags = html.parsePcTag
 
       var arts: Table[string, int]
       arts = html.parseArts("戦闘技能")
-      var battleArts = new BattleArts
+      var battleArts: BattleArts
       battleArts.avoidance = CValue(name: "回避", num: arts["回避"])
       battleArts.kick = CValue(name: "キック", num: arts["キック"])
       battleArts.hold = CValue(name: "組み付き", num: arts["組み付き"])
@@ -412,7 +420,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
       battleArts.rifle = CValue(name: "ライフル", num: arts["ライフル"])
       
       arts = html.parseArts("探索技能")
-      var findArts = new FindArts
+      var findArts: FindArts
       findArts.firstAid = CValue(name: "応急手当", num: arts["応急手当"])
       findArts.lockPicking = CValue(name: "鍵開け", num: arts["鍵開け"])
       findArts.hide = CValue(name: "隠す", num: arts["隠す"])
@@ -427,7 +435,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
       findArts.aim = CValue(name: "目星", num: arts["目星"])
       
       arts = html.parseArts("行動技能")
-      var actionArts = new ActionArts
+      var actionArts: ActionArts
       actionArts.driving = CValue(name: "運転", num: arts["運転"])
       actionArts.repairingMachine = CValue(name: "機械修理", num: arts["機械修理"])
       actionArts.operatingHeavyMachine = CValue(name: "重機械操作", num: arts["重機械操作"])
@@ -441,7 +449,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
       actionArts.disguise = CValue(name: "変装", num: arts["変装"])
       
       arts = html.parseArts("交渉技能")
-      var negotiationArts = new NegotiationArts
+      var negotiationArts: NegotiationArts
       negotiationArts.winOver = CValue(name: "言いくるめ", num: arts["言いくるめ"])
       negotiationArts.credit = CValue(name: "信用", num: arts["信用"])
       negotiationArts.haggle = CValue(name: "値切り", num: arts["値切り"])
@@ -449,7 +457,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
       negotiationArts.nativeLanguage = CValue(name: "母国語", num: arts["母国語"])
       
       arts = html.parseArts("知識技能")
-      var knowledgeArts = new KnowledgeArts
+      var knowledgeArts: KnowledgeArts
       knowledgeArts.medicine = CValue(name: "医学", num: arts["医学"])
       knowledgeArts.occult = CValue(name: "オカルト", num: arts["オカルト"])
       knowledgeArts.chemistry = CValue(name: "化学", num: arts["化学"])
@@ -472,23 +480,34 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
       
       let pc = Pc(id: id, name: pcName, tags: tags, url: url,
                   param: Param(ability: a,
-                               battleArts: battleArts,
-                               findArts: findArts,
-                               actionArts: actionArts,
-                               negotiationArts: negotiationArts,
-                               knowledgeArts: knowledgeArts))
+                              battleArts: battleArts,
+                              findArts: findArts,
+                              actionArts: actionArts,
+                              negotiationArts: negotiationArts,
+                              knowledgeArts: knowledgeArts))
 
-      var data = $$pc
+      var data = $$pc[]
       # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
-      if i != nUrls.len - 1 and not oneLine:
+      if i != urls.len - 1 and not oneLine:
         data.add(",")
       echo data
-    sleep(waitTime)
-    debug &"Scraping end:"
+      sleep(waitTime)
+      debug &"Scraping end:"
+
+proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, urls: seq[string]): int =
+  ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
+  ## 任意のフォーマットで出力する。
+  if debug:
+    addHandler(newConsoleLogger(lvlAll, useStderr=true))
+
+  debug &"main start:"
+  let client = newHttpClient()
+  let pcUrls = fetchPcUrls(urls, client, waitTime)
   case format
+  of "csv":
+    processCsv(pcUrls, client, waitTime)
   of "json":
-    if not oneLine:
-      echo "]"
+    processJson(pcUrls, client, waitTime, oneLine)
   debug &"main end:"
 
 when isMainModule:
