@@ -30,6 +30,21 @@ suite "proc parseAbility":
                                          hp: 16, mp: 11, initSan: 55, idea: 70,
                                          luk: 55, knowledge: 60)[]
 
+block:
+  let allianHtml = readFile("tests/allian.html")
+
+  suite "proc parsePageGenre":
+    test "page is CoC":
+      check p1html.parsePageGenre == "クトゥルフPC作成ツール"
+    test "page is アリアンロッド":
+      check allianHtml.parsePageGenre == "アリアンロッドギルド作成ツール"
+
+  suite "proc isCoCPcMakingPage":
+    test "page is CoC":
+      check p1html.isCoCPcMakingPage
+    test "page is アリアンロッド":
+      check not allianHtml.isCoCPcMakingPage
+
 suite "proc parsePcName":
   test "Parse":
     check p1html.parsePcName == "神田 真（かんだ まこと）"
@@ -124,3 +139,12 @@ suite "proc parsePcUrls":
 suite "proc parsePcTag":
   test "Parse":
    check p1html.parsePcTag == @["jiro"]
+
+suite "proc isListPageUrl":
+  test "Normal url":
+   check "https://charasheet.vampire-blood.net/list.html?tag=jiro".isListPageUrl
+   check "https://charasheet.vampire-blood.net/list.html?tag=".isListPageUrl
+   check "https://charasheet.vampire-blood.net/list.html?tag=あ".isListPageUrl
+   check "https://charasheet.vampire-blood.net/list_coc.html?tag=あ".isListPageUrl
+  test "Not list url":
+   check not "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb".isListPageUrl

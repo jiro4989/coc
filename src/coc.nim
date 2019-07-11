@@ -80,6 +80,22 @@ proc parseArts*(html, header: string): Table[string, int] =
           let v = sumElem[0].parseAttrValues[0]
           result[k] = v
   
+proc parsePageGenre*(html: string): string =
+  ## ページの分類（クトゥルフ神話PCの作成ページかどうかを判定するために）を取得
+  for head in html.getTags("ul", attrClass="breadcrumb"):
+    for a in head.getTags("a"):
+      if "作成ツール" in a:
+        result = a.replace(" ", "")
+                  .replace("\t", "")
+                  .replace("\n", "")
+                  .replace(peg"""\<\/?[^\>]+\>""", "")
+                  .strip
+        return
+
+proc isCoCPcMakingPage*(html: string): bool =
+  let genre = html.parsePageGenre
+  result = genre == "クトゥルフPC作成ツール"
+
 proc parsePcName*(html: string): string =
   ## 探索者名を取得
   for head in html.getTags("div"):
@@ -105,7 +121,13 @@ proc parsePcTag*(html: string): seq[string] =
                    .strip
     result.add(text)
 
-proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
+proc isListPageUrl*(url: string): bool =
+  ## URLがリストページのものかを調べる。
+  ## URLは一応
+  let lastUrlPath = url.split("/")[^1]
+  result = 0 < ["list.html?tag=", "list_coc.html?tag="].filterIt(lastUrlPath.startsWith(it)).len
+
+proc scrape(format="csv", recursive=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   ## 出力する項目を指定しなければ、以下のデータで出力する。
@@ -136,16 +158,19 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
   
   let client = newHttpClient()
 
-  # リスト指定があるときは、URLは探索者のリストページとみなす。
   # リストページから探索者のページのURLを取得し、それを後続のスクレイピング対象
   # ページとする。
   var nUrls = urls # 引数でvar指定するとエラーになるため暫定対応
-  if list:
-    var pcUrls: seq[string]
-    for url in urls:
+  var pcUrls: seq[string]
+  for url in urls:
+    # リストページのURLのときはスクレイピングしてページを取得
+    if url.isListPageUrl:
       let links = client.get(url).body.parsePcUrls
       pcUrls.add(links)
-    nUrls = pcUrls
+      continue
+    # それ以外はそのまま追加
+    pcUrls.add(url)
+  nUrls = pcUrls
   
   template addArts(genre: string) =
     block:
@@ -153,11 +178,7 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
       for k in headers:
         if arts.hasKey(k):
           param.add(arts[k])
-  
-  template parseAndEcho(genre: string) =
-    echo "\"" & genre & "\"", ":", html.parseArts(genre), ","
-    # data.add(genre, html.parseArts(genre))
-  
+
   proc parts(html, genre: string): string =
     "\"" & genre & "\":" & $html.parseArts(genre)
 
@@ -165,6 +186,12 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
   var jsonList: seq[string]
   for url in nUrls:
     let html = client.get(url).body
+
+    # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
+    # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
+    if not html.isCoCPcMakingPage:
+      continue
+
     let pcName = html.parsePcName
     let a = html.parseAbility
     case format
@@ -198,7 +225,7 @@ proc scrape(format="csv", list=false, recursive=false, urls: seq[string]): int =
     sleep(1)
   case format
   of "json":
-    echo "[\n", jsonList.join(",\n"), "]"
+    echo "[\n", jsonList.join(",\n"), "\n]"
 
 when isMainModule:
   import cligen

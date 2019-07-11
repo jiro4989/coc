@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-28189096-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-28189096-2');
+	</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="Y6ftOYq5NeYLAJaBqf06UYlMF2RDqyhgjv4LSuy2">
+
+			<title>			xxxxxxxxx
+	 - キャラクター保管所</title>
+	
+	<!-- Styles -->
+	<link rel="stylesheet" href="/css/app.css" type="text/css">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {"csrfToken":"Y6ftOYq5NeYLAJaBqf06UYlMF2RDqyhgjv4LSuy2"}    </script>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/1.6.5/jquery.contextMenu.min.css" type="text/css" />
+</head>
+<body>
+<header class="navbar navbar-default navbar-static-top">
+	<div class="inline">
+		<div class="navbar-header">
+
+			<!-- Collapsed Hamburger -->
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+				<span class="sr-only">Toggle Navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+
+			<!-- Branding Image -->
+			<a class="navbar-brand" href="https://charasheet.vampire-blood.net">
+				キャラクター保管所
+			</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="app-navbar-collapse">
+			<!-- Left Side Of Navbar -->
+
+			<!-- Right Side Of Navbar -->
+			<ul class="nav navbar-nav navbar-right">
+												<li><a href="https://charasheet.vampire-blood.net/2184612?back">バックアップ</a></li>
+		<li><a href="https://charasheet.vampire-blood.net/list_araguild">リスト</a></li>
+								<li><a href="https://charasheet.vampire-blood.net/mobile" onclick="event.preventDefault();
+	                                                     document.getElementById('change-mobile-form').submit();">モバイル版</a>
+					<form id="change-mobile-form" action="https://charasheet.vampire-blood.net/mobile" method="POST" style="display: none;">
+						<input type="hidden" name="_token" value="Y6ftOYq5NeYLAJaBqf06UYlMF2RDqyhgjv4LSuy2">
+					</form></li>
+									<li><a href="https://charasheet.vampire-blood.net/help">ヘルプ</a></li>
+								<!-- Authentication Links -->
+									<li><a href="https://charasheet.vampire-blood.net/login">ログイン</a></li>
+					<li class="tw_login"><a href="https://charasheet.vampire-blood.net/login/twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitterでログイン</a></li>
+					<li><a href="https://charasheet.vampire-blood.net/register">登録</a></li>
+							</ul>
+		</div>
+	</div>
+</header>
+
+<div class="head_breadcrumb">
+	<div class="inline">
+		<ul class="breadcrumb">
+			&nbsp;<li><a href="http://www.vampire-blood.net/">トップ</a></li>
+			&nbsp;<li><a href="http://www.vampire-blood.net/category/service">Webサービス</a></li>
+			&nbsp;<li><a href="https://charasheet.vampire-blood.net">キャラクター保管所</a></li>
+				<li><a href="https://charasheet.vampire-blood.net/araguild_pc_making.html">
+			アリアンロッド
+							ギルド作成ツール
+					</a>
+	</li>
+			<li><a href="https://charasheet.vampire-blood.net/2184612">xxxxxxxxx</a></li>
+			</ul>
+	</div>
+</div>
+
+<div class="inline left_varied_layout">
+			<form action="https://charasheet.vampire-blood.net/sheet/save" method="post" name="MAKING" id="MAKING">
+	
+	
+	<div class="main">
+		<div class="content">
+			<div class="maincontent">
+									<section>
+					<span class="show_id">ID:2184612</span>
+							<span class="show_md">MD:41c47884ebc9e3a339efd6390f72abd3</span>
+				<h3>xxxxxxxxx</h3>
+		<div>
+										タグなし
+			
+		</div>
+		<input type="button" name="deathcheckbutton" onclick="WindowOnLoadAction()" value="対Chrome専用復活ボタン(動作しない時このボタンを押せば改善するかもしれません)" class="full">
+	</section>
+
+		<section id="personal_disp">
+	<div class="showbtn">
+		<input name="is_disp_personal" id="is_disp_personal" value="1" type="hidden">
+		<span class="none_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-ban-circle" aria-hidden="true"></b>非表示</span>
+		<span class="data_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-eye-open" aria-hidden="true"></b>簡易表示</span>
+		<span class="normal_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-pencil" aria-hidden="true"></b>通常表示</span>
+		<h4 class="clickable">ギルドデータ</h4>
+	</div>
+	<div class="disp"><table class="pc_making">
+<tr>
+<th>ギルド名</th>
+<td colspan="3"><input name="pc_name" type="text" class="str" id="pc_name" size="55" value="xxxxxxxxx"></td>
+</tr>
+<tr>
+<th>タグ</th>
+<td colspan="3"><input name="pc_tags" type="text" class="str" id="pc_tags" size="55" value></td>
+</tr>
+<tr>
+<th>ギルドマスター</th>
+<td colspan="3"><input name="guild_master" type="text" class="str" id="guild_master" size="55" value></td>
+</tr>
+<tr>
+<th>ギルドLv</th>
+<td>Lv<input type="text" name="guild_lv" value="1" size="4" readonly="true" id="guild_lv"></td>
+<th>合計成長点</th>
+<td><input name="guild_get_seichoten" type="text" id="guild_get_seichoten" onchange="calcGuildSeichoten()" onkeyup="calcGuildSeichoten()" size="6" value="0"></td>
+</tr>
+<tr>
+<th>残り成長点</th>
+<td class="sumTD"><input name="guild_nokori_seichoten" type="text" id="guild_nokori_seichoten" value="0" size="6" readonly="true"> /
+<input name="guild_next_seichoten" type="text" id="guild_next_seichoten" value="10" size="6" readonly="true"></td>
+<th>次レベルまで</th>
+<td><input name="guild_used_seichoten" type="text" id="guild_used_seichoten" value="10" size="6" readonly="true"></td>
+</tr>
+</table>
+
+	</div>
+		<a href="#top">↑ページ上部へ</a>
+	</section>	<section id="guildmember_disp">
+	<div class="showbtn">
+		<input name="is_disp_guildmember" id="is_disp_guildmember" value="1" type="hidden">
+		<span class="none_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-ban-circle" aria-hidden="true"></b>非表示</span>
+		<span class="data_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-eye-open" aria-hidden="true"></b>簡易表示</span>
+		<span class="normal_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-pencil" aria-hidden="true"></b>通常表示</span>
+		<h4 class="clickable">ギルドメンバー</h4>
+	</div>
+	<div class="disp"><table class="pc_making" id="Table_guild_member">
+<tr class="nodrag nodrop">
+<th>ID</th>
+<th>名前</th>
+<th>Lv</th>
+<th>メインクラス</th>
+<th>サポートクラス</th>
+<th>種族</th>
+<th>備考</th>
+<th>アクセス</th>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2096519"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="セネリオ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="23"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウィザード"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="セージ"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2116695"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ライヴ・アイオライト"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="18"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーロード"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ハイランダー"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2081693"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="リディル・ライヴハート"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="15"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="バイキング"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2182650"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="和月"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="14"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="サムライ"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2165458"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ロイド・リーダス"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="13"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="剣聖"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2148329"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ノエル・クラリウム"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="14"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="シーフ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="アサシン"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヴァーナ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2158710"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="グリフィア・レッド"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="13"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="グラディエーター"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヴァーナ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2129569"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ハルキ・ワクラバ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="13"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="アコライト"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="シャーマン"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2160107"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ホムラ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="13"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ルーンナイト"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2191651"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ユズメ・シュトガルト"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="13"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="シャーマン"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2083939"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="サキ・オニブシ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="12"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="シーフ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ダンサー"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="881291"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="マヨイ・クラメイン"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="12"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="アコライト"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="バード"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="リャナンシー"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2072598"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ルカ・レグレント"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="12"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="モンク"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヴァーナ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2087597"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ユキ・ベネディクト"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="11"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="モンク"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヴァーナ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2513355"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ミクリ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="11"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="バトルプリースト"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2136642"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="セロシア・ルイーツァリ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="11"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="暗黒騎士"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヴァーナ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2504423"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ナオヤ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="11"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="メカニック"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2504430"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="なゆたそ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ロボティクス"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2094811"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="エフラム・ルウィデイル"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ランスロディア"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2549351"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="オウカ・フジミヤ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="シーフ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="サロゲート"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2143197"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="アヤネ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="バトルプリースト"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2071119"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="セツカ・コルトハーツ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="シャーマン"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="エルダナーン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2083701"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ラーチェル・ロスティニア"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="10"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="アコライト"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="セージ"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2095206"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="シェーノ・フーカー"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="9"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ベルセルク"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="フィルボル"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2365606"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="コハク・レストレンジ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="9"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="アコライト"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="エルダナーン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2096199"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ベルカ・バグショット"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="8"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ドラゴンナイト"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2123213"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="コルトラ・エンリュミオン"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="8"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="ウォーリア"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ファランクス"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2536632"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="ナオ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="8"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ウィッチ"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="アーシアン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2133304"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="スィーニ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="7"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="フォーチュンテラー"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ヒューリン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2128434"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="マルグレット・フィオネリオ"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="5"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="メイジ"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="バード"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="ネヴァーフ"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2096001"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value="フルーレ・ライシュタイン"></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value="4"></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value="アコライト"></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value="ネクロマンサー"></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value="エルダナーン"></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+<tr>
+<td><input name="guild_member_id[]" type="text" id="guild_member_id[]" size="4" value="2535231"></td>
+<td><input name="guild_member_name[]" type="text" class="str" id="guild_member_name[]" size="20" value></td>
+<td><input name="guild_member_lv[]" type="text" id="guild_member_lv[]" size="2" value></td>
+<td><input name="guild_member_mcls_name[]" type="text" id="guild_member_mcls_name[]" size="14" class="str" value></td>
+<td><input name="guild_member_scls_name[]" type="text" id="guild_member_scls_name[]" size="14" class="str" value></td>
+<td><input name="guild_member_shuzoku[]" type="text" id="guild_member_shuzoku[]" size="14" class="str" value></td>
+<td><input name="guild_member_memo[]" type="text" class="str" id="guild_member_memo[]" size="22" value="ライヴステラ"></td>
+<td><button type='button' name="btnAccessURI" style="text-align:center" onClick="AccessURI(this);">アクセス</button></td>
+</tr>
+</table>
+<input name="btnAddLineGuildMember" type="button" id="btnAddLineGuildMember" onclick="addLineGMember();" value="＋増やす" style="text-align:center">&nbsp;<input name="btnDelLineGuildMember" type="button" id="btnDelLineGuildMember" onclick="delLineGMember();" value="－減らす" style="text-align:center">
+	→ <input type="button" value="シートから取得" onclick="writePcDatas()">
+	</div>
+		<a href="#top">↑ページ上部へ</a>
+	</section>	<section id="skill_disp">
+	<div class="showbtn">
+		<input name="is_disp_skill" id="is_disp_skill" value="1" type="hidden">
+		<span class="none_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-ban-circle" aria-hidden="true"></b>非表示</span>
+		<span class="data_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-eye-open" aria-hidden="true"></b>簡易表示</span>
+		<span class="normal_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-pencil" aria-hidden="true"></b>通常表示</span>
+		<h4 class="clickable">ギルドサポート</h4>
+	</div>
+	<div class="disp"><table class="pc_making" id="Table_guild_skill">
+<tr class="nodrag nodrop">
+<th>&nbsp;</th><th>サポート名</th><th>消費</th><th>タイミング</th><th>効果など</th>
+</tr>
+<tr class="nodrag nodrop">
+<th rowspan="2"><span id="guild_skill_num" name="guild_skill_num">1</span></th>
+<td><input name="guild_skill_name[]" type="text" class="str" id="guild_skill_name[]" size="20" value></td>
+<td><input name="guild_skill_page[]" type="text" id="guild_skill_page[]" size="3" value></td>
+<td><input name="guild_skill_timing[]" type="text" class="str" id="guild_skill_timing[]" size="12" value></td>
+<td><input name="guild_skill_memo[]" type="text" class="str" id="guild_skill_memo[]" size="60" value></td>
+
+</tr>
+<tr class="nodrag nodrop">
+<td><input name="guild_skill_name[]" type="text" class="str" id="guild_skill_name[]" size="20" value></td>
+<td><input name="guild_skill_page[]" type="text" id="guild_skill_page[]" size="3" value></td>
+<td><input name="guild_skill_timing[]" type="text" class="str" id="guild_skill_timing[]" size="12" value></td>
+<td><input name="guild_skill_memo[]" type="text" class="str" id="guild_skill_memo[]" size="60" value></td>
+</tr>
+</table>
+<input name="btnAddLineGuildSkill" type="button" id="btnAddLineGuildSkill" onclick="addLineGuildSkill();" value="＋増やす" style="text-align:center">&nbsp;<input name="btnDelLineGuildSkill" type="button" id="btnDelLineGuildSkill" onclick="delLineGuildSkill();" value="－減らす" style="text-align:center">
+
+	</div>
+		<a href="#top">↑ページ上部へ</a>
+	</section>	<section id="item_disp">
+	<div class="showbtn">
+		<input name="is_disp_item" id="is_disp_item" value="1" type="hidden">
+		<span class="none_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-ban-circle" aria-hidden="true"></b>非表示</span>
+		<span class="data_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-eye-open" aria-hidden="true"></b>簡易表示</span>
+		<span class="normal_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-pencil" aria-hidden="true"></b>通常表示</span>
+		<h4 class="clickable">保管アイテム類</h4>
+	</div>
+	<div class="disp"><table class="pc_making" id="Table_item">
+<tbody><tr class="nodrag nodrop">
+<th>名称</th>
+<th>重量</th>
+<th>価格</th>
+<th>効果・備考など</th>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="10ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="0"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="15ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="10"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="20ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="25ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="0"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="30ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="2"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="40ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="0"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="45ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="2"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="50ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="0"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="60ポーション"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="スキルのたね"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="12"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="転職クリスタル"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="3"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="能力上昇の種"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="アイテム改造"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ちいさなメダル"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="65"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="世界樹登頂権"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="4"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ダマスカス鋼"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="2"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ダマスカス骸晶"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="2"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="緑の羽根Lv2"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="効果なし"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="桃色の羽Lv1"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="効果なし"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="銀の王冠"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="金の王冠"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="沸き立つ辺境の宿屋の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="辺境の宿屋の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="夢見る呪詛と東国の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="夢見る東国の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="太古海上の大国の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="海上の大国の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="はるかな農村の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="★"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="はるかな農村の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="滅びた旅人の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="★"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="滅びた旅人の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="揺らめく破滅の塔の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="揺らめく塔の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="オアシスの小さな冒険の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="★"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="オアシスの小さな冒険の世界へと旅立つ鍵"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="不思議な鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="2"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="摩天楼立つ天樹の瞳の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="★"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="閃光を見る魔術の探求者の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="夕闇閉ざす鍛冶師の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="夢見るヤシの国の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="地の底の闘技場の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="小さな魔王の鍵"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value="1"></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="アロンダイト"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="長剣片手"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ライヴ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="七星剣-二飛核-"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="長剣片手"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得和月"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="金翼のマント"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="鎧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マヨイ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="光輝イーヴァルディ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="片手魔導書"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マルグレ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="魔典グレイプニル"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="片手魔導書"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得エフラム　装備ユズメ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="風刃レクスカリバー"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="片手魔導書"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ミクリ　装備セネリオ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="夢刀"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="片手刀"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ルカ　　 装備 和月"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="魔狼剣リガルブレイド 2"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="長剣片手"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得彩音 ユズ　　装備ロイド"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="風呼弓リヤンフレチェ 2"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="弓"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ホムラ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="氷絶剣アウドムラ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="剣"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得シノン ミクリ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="絶狼斧バシリコス"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="斧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ハール"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="狼雷装鬼 ルガウフェンリル"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="格闘"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マヨイ　　 装備ルカ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="灼熱手甲"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="格闘"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ルカ　　"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="こおりのツメ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="格闘"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セネリオ　装備ユキ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="水の羽衣"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="鎧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セロシア 装備ミクリ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ラッキーフォーアゲイン"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="装"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ベルカ 装備ベルカ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="リパルシ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="鎧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得彩音　　装備彩音"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ミラルフォンコート"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="鎧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ライヴ　装備ライヴ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ウィンヴァルボルティシア+2"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="杖"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セネリオ　"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="パルチオのブレスレット"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="補"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セネリオ　　装備ミクリ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="シーブライアクス"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="斧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ユキ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="プラチナソード"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="長剣片手"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セネリオ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="プラチナシールド"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="盾"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得彩音"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="英雄パルナの証"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="装"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ホムラ 装備 ホムラ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="フラムレイズガントレット"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="補"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マヨイ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="アームレイフォース"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="装"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セネリオ　　装備ゆき"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="剣闘士のピアス"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="補"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得セロシア"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="メイテルE-ブラッド"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="鎧"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ミクリ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="カースティサークレット"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="兜"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ゆずめ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="レギンヴァイト"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="槍"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ノエル"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ブレイズガントレット・エニマ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="補"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ライオンハート"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="銃剣"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ライヴ　装備ライヴ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="リッチロウブレード"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="両手剣"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マヨイ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="アエマの髪留め-紅-"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="頭  ガン"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得マヨイ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="自称魔王の黒き羽"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="装備"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得 ユズ"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="ヴィンセント"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="魔導銃"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得リディル"></td>
+</tr>
+<tr>
+<td><input name="item_name[]" class="str" id="item_name[]" size="32" type="text" value="祝福された銀のナイフ"></td>
+<td><input name="item_weight[]" id="item_weight[]" onchange="chgItemWeight()" onkeyup="chgItemWeight()" size="3" type="text" value></td>
+<td><input name="item_price[]" id="item_price[]" onchange="chgItemPrice()" onkeyup="chgItemPrice()" size="8" type="text" value="短剣"></td>
+<td><input name="item_memo[]" id="item_memo[]" size="60" class="str" type="text" value="取得ディーナ"></td>
+</tr>
+<tr class="nodrag nodrop append">
+<th>総計</th>
+<td class="sumTD"><input name="weight_item_sum" id="weight_item_sum" onchange="cE()" onkeyup="cE()" value="122" size="3" readonly="true" type="text"></td>
+<td class="sumTD"><input name="price_item_sum" id="price_item_sum" value="0" size="8" readonly="true" type="text">G</td>
+<td><input name="btnAddLineItem" id="btnAddLineItem" onclick="addLineItem();" value="＋増やす" style="text-align: center;" type="button">&nbsp;<input name="btnDelLineItem" id="btnDelLineItem" onclick="delLineItem();" value="－減らす" style="text-align: center;" type="button">
+</td>
+</tr>
+</tbody></table>
+
+	</div>
+		<a href="#top">↑ページ上部へ</a>
+	</section>	<section id="seicho_disp">
+	<div class="showbtn">
+		<input name="is_disp_seicho" id="is_disp_seicho" value="0" type="hidden">
+		<span class="none_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-ban-circle" aria-hidden="true"></b>非表示</span>
+		<span class="data_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-eye-open" aria-hidden="true"></b>簡易表示</span>
+		<span class="normal_disp btn tab-btn btn-xs"><b class="glyphicon glyphicon-pencil" aria-hidden="true"></b>通常表示</span>
+		<h4 class="clickable">成長履歴</h4>
+	</div>
+	<div class="disp"><table class="pc_making" id="Table_seicho_his">
+<tbody><tr class="nodrag nodrop">
+<th rowspan="2">回</th>
+<th colspan="3">経験点 / 獲得総計<span class="sumTD"><input name="exp_his_sum" id="exp_his_sum" value="0" size="8" readonly="true" type="text">点</span>
+</th>
+<th rowspan="2">メモ(セッションの内容など)　(現在Lv.<input name="Level" id="Level" value="1" size="3" readonly="true" type="text">)</th>
+</tr>
+<tr class="nodrag nodrop">
+<th>提供</th>
+<th>ボーナス</th>
+<th>獲得計</th>
+</tr>
+<tr>
+<th><span id="seichoH_num" name="seichoH_num">1</span></th>
+<td><input name="adv_exp_his[]" id="adv_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td><input name="bns_exp_his[]" id="bns_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td class="sumTD"><input name="get_exp_his[]" id="get_exp_his[]" value="0" size="8" readonly="true" type="text">点</td>
+<td><input name="seicho_memo_his[]" class="str" id="seicho_memo_his[]" size="60" type="text" value></td>
+</tr>
+<tr>
+<th><span id="seichoH_num" name="seichoH_num">2</span></th>
+<td><input name="adv_exp_his[]" id="adv_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td><input name="bns_exp_his[]" id="bns_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td class="sumTD"><input name="get_exp_his[]" id="get_exp_his[]" value="0" size="8" readonly="true" type="text">点</td>
+<td><input name="seicho_memo_his[]" class="str" id="seicho_memo_his[]" size="60" type="text" value></td>
+</tr>
+<tr>
+<th><span id="seichoH_num" name="seichoH_num">3</span></th>
+<td><input name="adv_exp_his[]" id="adv_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td><input name="bns_exp_his[]" id="bns_exp_his[]" onchange="chgExpHis()" onkeyup="chgExpHis()" size="8" type="text" value>点</td>
+<td class="sumTD"><input name="get_exp_his[]" id="get_exp_his[]" value="0" size="8" readonly="true" type="text">点</td>
+<td><input name="seicho_memo_his[]" class="str" id="seicho_memo_his[]" size="60" type="text" value></td>
+</tr>
+</tbody></table>
+<input name="btnAddLineSeichoHis" id="btnAddLineSeichoHis" onclick="addLineSeichoHis();" value="＋増やす" style="text-align: center;" type="button">&nbsp;
+<input name="btnDelLineSeichoHis" id="btnDelLineSeichoHis" onclick="delLineSeichoHis();" value="－減らす" style="text-align: center;" type="button">
+
+	</div>
+		<a href="#top">↑ページ上部へ</a>
+	</section>
+	<section><h4>その他メモ</h4>
+		<div><textarea name="pc_making_memo" class="full" rows="6"></textarea>
+			<br>
+			<input name onclick="chgPcMemoRows(2);" value="＋広げる" type="button"> <input onclick="chgPcMemoRows(-2);" value="－狭める" type="button"><input name="pc_making_memo_rows" id="pc_making_memo_rows" value="256" type="hidden"><br>
+			<a href="#top">↑ページ上部へ</a></div>
+	</section>
+	<section>
+		<h4>エラーメッセージ</h4>
+		<p>
+			<textarea name="message" class="full" rows="2" readonly="true" id="message"></textarea>
+		</p>
+	</section>
+	<section>
+<p>「<a href="http://www.fear.co.jp/ari/" target="_blank">アリアンロッド</a>」は菊池
+たけし氏およびF.E.A.R.の著作物です。<br>
+<a href="http://www.fear.co.jp/ari/" target="_blank"><img 
+src="//ddfresource.vampire-blood.net/hokanjo/arian_banner.gif" border="0" height="40" 
+width="200"></a> アリアンロッド公式 <a href="http://www.fear.co.jp/ari/" 
+target="_blank">http://www.fear.co.jp/ari/</a></p>
+</section>
+			</div>
+		</div>
+	</div>
+
+	<aside class="leftsidebar  fixed">
+			<section class="sideheader">
+		<input onclick="return submitDataSave(0)" value="保
+存
+す
+る" type="submit" style="width:100%;">保<br>存<br>し<br>た<br>い<br>時<br>は<br>こ<br>こ<br>に<br>マ<br>ウ<br>ス<br>を<br>合<br>わ<br>せ<br>る</section>
+	<section>
+		<h4>保存する</h4>
+		<input type="hidden" name="_token" value="Y6ftOYq5NeYLAJaBqf06UYlMF2RDqyhgjv4LSuy2">
+		<input name="mode" id="mode" type="hidden">
+		<input name="game" id="game" value="araguild" type="hidden">
+		<input name="data_id" id="data_id" value="2184612" type="hidden">
+		<input name="phrase" id="phrase" value="41c47884ebc9e3a339efd6390f72abd3" type="hidden">
+		<input name="is_readed" value type="hidden">
+		<input name="passcode_type" value="account" type="hidden">
+		<input name="old_passcode_type" type="hidden">
+		<div>
+			Title:<input name="data_title" id="data_title" size="20" type="text" value="xxxxxxxxx"><br>
+
+							<a id="savetype_chg_a" href="javascript:void(0);" onclick="ShowAccountSaveTypeChange(this)"></a>
+				<span id="savetype_chg_span" style="display:none;">
+            	                		                <label rel="tooltip"
+		                       data-toggle="tooltip"
+		                       title="あなたのアカウントに関連付け、他人に上書き、削除できないようにします。"><input type="radio" name="save_limitate" value="account" onclick="ChgInputedPass()">アカウントに関連付ける</label><br>
+	                
+			        <label rel="tooltip"
+			               data-toggle="tooltip"
+			               title="パスワードを入力し、それが合っていないと上書き、削除できないようにします。"
+			        ><input type="radio" value="password" name="save_limitate" onclick="ChgInputedPass()">パスワードで保護する</label><br>
+
+				    <label rel="tooltip"
+				           data-toggle="tooltip"
+				           title="誰でも上書き、削除ができるようにします。"><input type="radio" name="save_limitate" onclick="ChgInputedPass()" value="none">
+			        			            保護を解除する
+									    </label><br>
+			</span>
+						<span style="display: none;" id="input_pw">
+                            パス:<input name="password" size="20" maxlength="32" type="text"></span>
+			<br>
+			<label rel="tooltip"
+			       data-toggle="tooltip"
+			       title="ログインしているか、パスワードを入力しないとデータが見れないようになります。<br />また、他シートや別スクリプトとの連携もできなくなります。"><input name="block_account" value="1" type="checkbox">自分以外から隠す</label>
+										<button onclick="return submitDataSave(1)" type="submit" class="full btn btn-warning">
+								<span class="glyphicon glyphicon-floppy-disk"></span>
+								ログインして保存
+							</button>
+							<label><input type="checkbox" name="new_save" value="1">複製を保存する(ログイン不要)</label>
+					</div>
+	</section>
+			<section>
+			<h4>データ出力</h4>
+			<div>
+															<button onclick="return submitTextOutput()" type="submit" class="halffull btn btn-info" style="float: left"><span class="fa fa-file-text-o"></span> テキスト</button>
+																<button onclick="return submitPDFOutput()" type="submit" class="halffull btn btn-info"><span class="fa fa-file-pdf-o"></span> PDF</button>
+												</div>
+		</section>
+				<section>
+			<h4>チャットパレット</h4>
+			<div>
+				<input onclick="DoChatPalette()" value=" → 作成 " type="button" class="halffull btn btn-warning"><input onclick="SaveCPD()" value=" → 保存 " type="button" class="halffull btn btn-info">
+			</div>
+		</section>
+		<section>
+		<h4>どどんとふ連携用</h4>
+		<div>
+<span rel="tooltip"
+      data-toggle="tooltip"
+      title="どどんとふのURLを決めます。カスタムで自由設定可能です。<br>
+ログインしていれば右上の設定からリストの項目を追加できます。<br>
+いつも使うどどんとふを一番上にできるので、ぜひ試してみてください。">対象：<select name="dodontof_send_to" onchange="chgDodontofSend()">
+							<option value="https://ddntf.museru.com/DodontoF/DodontoF.swf">むせる</option>
+					<option value="https://www.taruki.com/DodontoF_srv1/DodontoF.swf">公式 第壱鯖</option>
+					<option value="https://www.taruki.com/DodontoF_srv2/DodontoF.swf">公式 第弐鯖</option>
+					<option value="https://www.taruki.com/DodontoF_srv3/DodontoF.swf">公式 第参鯖</option>
+					<option value="https://www.taruki.com/DodontoF_srv4/DodontoF.swf">公式 第四鯖</option>
+					<option value="https://d1.trpg.net/DodontoF.swf">TRPG.NET #1</option>
+					<option value="https://d2.trpg.net/DodontoF.swf">TRPG.NET #2</option>
+					<option value="https://d3.trpg.net/DodontoF.swf">TRPG.NET #3</option>
+				<option value="">カスタム</option>
+</select></span><br>
+			<span id="heya_custom" style="display:none;">URL:<input type="text" name="dodontof_url" value size="16"><br></span>
+			<span rel="tooltip"
+			      data-toggle="tooltip"
+			      data-html="true"
+			      title="コマを追加する部屋の番号を決めます。<br>詳しくはGMに聞いてください。">部屋番号：<input type="text" min="0" max="9999" step="1" name="dodontof_room" value size="16"></span><br>
+			パス：<span id="ddf_passname" onclick="showddfTextChange('ddf_passname','dodontof_pass')">なし(クリックで設定)</span>
+			<input type="text" name="dodontof_pass" size="16" onBlur="endddfTextChange('ddf_passname',this);" style="display:none;"><br>
+			コマ名：<span id="ddf_komaname" onclick="showddfTextChange('ddf_komaname','koma_name');">PC名と同じ(クリックで変更)</span>
+			<input type="text" name="koma_name" value size="16" style="display:none;" onBlur="endddfTextChange('ddf_komaname',this)"><br>
+						画像：<input type="text" name="dodontof_image" value size="20">
+			<br><label><input type="checkbox" onclick="chgDDFGazouselect(this)">画像を選択する</label>
+			<span id="koma_images" style="display:none;"><br>
+通常のコマ：<select name="dodontof_sc_colors" onchange="dodontof_imgchgcolor(this)">
+<option value="" style="">-</option>
+<option value="image/defaultImageSet/pawn/pawnBlack.png" style="color:black;">●</option>
+<option value="image/defaultImageSet/pawn/pawnBlue.png" style="color: blue;">●</option>
+<option value="image/defaultImageSet/pawn/pawnGreen.png" style="color: lime;">●</option>
+<option value="image/defaultImageSet/pawn/pawnLightBlue.png" style="color: aqua;">●</option>
+<option value="image/defaultImageSet/pawn/pawnOrange.png" style="color: orange;">●</option>
+<option value="image/defaultImageSet/pawn/pawnPink.png" style="color: pink;">●</option>
+<option value="image/defaultImageSet/pawn/pawnPurple.png" style="color: #FF00FF;">●</option>
+<option value="image/defaultImageSet/pawn/pawnRed.png" style="color: red;">●</option>
+<option value="image/defaultImageSet/pawn/pawnWhite.png" style="color:black;">○</option>
+<option value="image/defaultImageSet/pawn/pawnYellow.png" style="color: yellow;">●</option>
+</select><br>
+エリュシオン：<select id="elysion" name="elysion" style="width:80px;display:none;" onchange="dodontof_imgchgcolor(this)">
+        <option value="">&nbsp;</option>
+    </select><br>
+ネクロニカ：<select id="nechro" name="nechro" style="width:80px;display:none;" onchange="dodontof_imgchgcolor(this)">
+        <option value="">&nbsp;</option>
+    </select>
+</span>
+			<br>
+			<label rel="tooltip"
+			       data-toggle="tooltip"
+			       data-html="true"
+			       title="パラメータを強制的に保管所のデフォルトに置き換えます。<br />
+			       通常は必要ありません。<br><strong>GMからの指示のない限りチェックしない</strong>でください！"><input type="checkbox" value="1" name="dodontof_param_auto_change">パラメータを強制的に変更する</label><br>
+	<input type="button" value="コマを作成" onclick="MakeCharactorKoma()" class="full">
+		</aside>
+
+			<aside class="rightsidebar">
+				<section>
+		<h4>管理者に連絡</h4>
+		<a href="http://www.vampire-blood.net/forums/forum/charasheets">サポート掲示板</a><br>
+		<a id="twitter_renraku" href="https://twitter.com/intent/tweet?screen_name=kurumi_tetu" class="twitter-mention-button" data-lang="ja" data-related="kurumi_tetu">Tweet to @kurumi_tetu</a>
+	</section>
+	<section>
+		<h3>Donation</h3>
+		<a href="https://www.amazon.co.jp/registry/wishlist/3CQNUY9MZRS06?sort=priority">Amazon ウィッシュリスト</a>
+	</section>
+						<script type="text/javascript">amzn_assoc_ad_type ="responsive_search_widget"; amzn_assoc_tracking_id ="kurumitetu-22"; amzn_assoc_marketplace ="amazon"; amzn_assoc_region ="JP"; amzn_assoc_placement =""; amzn_assoc_search_type = "search_widget";amzn_assoc_width ="160"; amzn_assoc_height ="600"; amzn_assoc_default_search_category ="Books"; amzn_assoc_default_search_key ="%E3%82%A2%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%AD%E3%83%83%E3%83%89";amzn_assoc_theme ="light"; amzn_assoc_bg_color ="FFFFFF"; </script>
+		<script src="//z-fe.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&Marketplace=JP"></script>
+				</aside>
+	
+			</form>
+	</div>
+<aside class="footbar">
+	</aside>
+
+<footer>
+	<hr>
+	<p>&copy; 2008-2013 Copyright by くるみ＠鉄村</p>
+</footer>
+<script src="https://charasheet.vampire-blood.net/js/app.js"></script>
+	<script type="text/javascript" src="https://charasheet.vampire-blood.net/js/jquery.tablednd.js"></script>
+			<script type="text/javascript" src="https://charasheet.vampire-blood.net/araguild_template.js"></script>
+		<script type="text/javascript" src="https://charasheet.vampire-blood.net/js/fhconvert.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.4.2/jquery.contextMenu.js"></script>
+</body>
+</html>
