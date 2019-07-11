@@ -498,7 +498,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   if debug:
-    addHandler(newConsoleLogger(lvlAll, useStderr=true))
+    addHandler(newConsoleLogger(lvlAll, verboseFmtStr, useStderr=true))
 
   debug &"main start:"
   let client = newHttpClient()
