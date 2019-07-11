@@ -128,6 +128,26 @@ proc isListPageUrl*(url: string): bool =
   let lastUrlPath = url.split("/")[^1]
   result = 0 < ["list.html?tag=", "list_coc.html?tag="].filterIt(lastUrlPath.startsWith(it)).len
 
+proc hasListItem*(html: string): bool =
+  result = true
+  for elem in html.getTags("div", attrClass="maincontent"):
+    for elem2 in elem.getTags("h3"):
+      if "リスト項目がありません" in elem2:
+        return false
+
+proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: string, waitTime: int) =
+  ## urlにリストページのURLを指定すると、次のリストページを順に辿っていき、
+  ## ページがなくなるまで探索者のページURLを取得して追加する。
+  for i in 1..100:
+    let nextUrl = url & "&order=&page=" & $i
+    debug &"Next list url is {nextUrl}"
+    let html = client.get(nextUrl).body
+    sleep(waitTime)
+    if html.hasListItem:
+      urls.add(html.parsePcUrls)
+      continue
+    return
+
 proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
@@ -173,8 +193,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
     # リストページのURLのときはスクレイピングしてページを取得
     if url.isListPageUrl:
       debug &"{url} is a list url."
-      let links = client.get(url).body.parsePcUrls
-      pcUrls.add(links)
+      pcUrls.addPcPageUrlResursive(client, url, waitTime)
       continue
     # それ以外はそのまま追加
     debug &"{url} is a pc url."
@@ -193,7 +212,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
 
   # 探索者のページから能力値を取得して出力する。
   for i, url in nUrls:
-    debug &"Scraping start: i = {i}, url = {url}"
+    debug &"Scraping start: [{i+1}/{nUrls.len}] i = {i}, url = {url}"
 
     let html = client.get(url).body
 
@@ -207,7 +226,6 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
     let a = html.parseAbility
     case format
     of "csv":
-      debug &"Format is csv."
       var param = @[a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
       addArts("戦闘技能")
       addArts("探索技能")
@@ -216,7 +234,6 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
       addArts("知識技能")
       echo pcName & "," & param.join(",")
     of "json":
-      debug &"Format is json."
       let abil = {"STR":a.str, "CON":a.con, "POW":a.pow, "DEX":a.dex,
                   "APP":a.app, "SIZ":a.siz, "INT":a.int2, "EDU":a.edu,
                   "HP":a.hp, "MP":a.mp, "初期SAN":a.initSan, "アイデア":a.idea,
@@ -236,7 +253,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
         data.add(",")
       echo data
     sleep(waitTime)
-    debug &"Scraping end: i = {i}, url = {url}"
+    debug &"Scraping end:"
   case format
   of "json":
     echo "]"
