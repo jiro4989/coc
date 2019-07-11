@@ -8,7 +8,7 @@ type
     name*: string
     tags*: seq[string]
     url*: string
-    params*: Param
+    param*: Param
   Param* = ref object
     ability*: Ability
     battleArts*: BattleArts
@@ -17,7 +17,7 @@ type
     negotiationArts*: NegotiationArts
     knowledgeArts*: KnowledgeArts
   CValue* = object
-    namae*: string
+    name*: string
     num*: int
   Ability* = ref object
     str*: CValue    ## STR
@@ -144,20 +144,20 @@ proc parseAbility*(html: string): Ability =
     if "現在値" in elem:
       let nums = elem.parseAttrValues
       result = Ability(
-        str: nums[0],
-        con: nums[1],
-        pow: nums[2],
-        dex: nums[3],
-        app: nums[4],
-        siz: nums[5],
-        int2: nums[6],
-        edu: nums[7],
-        hp: nums[8],
-        mp: nums[9],
-        initSan: nums[10],
-        idea: nums[11],
-        luk: nums[12],
-        knowledge: nums[13])
+        str:       CValue(name: "STR", num: nums[0]),
+        con:       CValue(name: "CON", num: nums[1]),
+        pow:       CValue(name: "POW", num: nums[2]),
+        dex:       CValue(name: "DEX", num: nums[3]),
+        app:       CValue(name: "APP", num: nums[4]),
+        siz:       CValue(name: "SIZ", num: nums[5]),
+        int2:      CValue(name: "INT", num: nums[6]),
+        edu:       CValue(name: "EDU", num: nums[7]),
+        hp:        CValue(name: "HP", num: nums[8]),
+        mp:        CValue(name: "MP", num: nums[9]),
+        initSan:   CValue(name: "初期SAN", num: nums[10]),
+        idea:      CValue(name: "アイデア", num: nums[11]),
+        luk:       CValue(name: "幸運", num: nums[12]),
+        knowledge: CValue(name: "知識", num: nums[13]))
       return
 
 proc parseArts*(html, header: string): Table[string, int] =
@@ -294,12 +294,13 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
     pcUrls.add(url)
   nUrls = pcUrls
   
-  template addArts(genre: string) =
-    block:
-      let arts = html.parseArts(genre)
-      for k in headers:
-        if arts.hasKey(k):
-          param.add(arts[k])
+  when false:
+    template addArts(genre: string) =
+      block:
+        let arts = html.parseArts(genre)
+        for k in headers:
+          if arts.hasKey(k):
+            param.add(arts[k])
 
   proc parts(html, genre: string): string =
     "\"" & genre & "\":" & $html.parseArts(genre)
@@ -320,28 +321,102 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
     let a = html.parseAbility
     case format
     of "csv":
-      var param = @[a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
-      addArts("戦闘技能")
-      addArts("探索技能")
-      addArts("行動技能")
-      addArts("交渉技能")
-      addArts("知識技能")
-      echo pcName & "," & param.join(",")
+      when false:
+        var param = @[a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
+        addArts("戦闘技能")
+        addArts("探索技能")
+        addArts("行動技能")
+        addArts("交渉技能")
+        addArts("知識技能")
+        echo pcName & "," & param.join(",")
     of "json":
-      let abil = {"STR":a.str, "CON":a.con, "POW":a.pow, "DEX":a.dex,
-                  "APP":a.app, "SIZ":a.siz, "INT":a.int2, "EDU":a.edu,
-                  "HP":a.hp, "MP":a.mp, "初期SAN":a.initSan, "アイデア":a.idea,
-                  "幸運":a.luk, "知識":a.knowledge}.toTable
-      var pcParam: seq[string]
-      pcParam.add("\"" & "能力値" & "\":" & $abil)
-      pcParam.add(parts(html, "戦闘技能"))
-      pcParam.add(parts(html, "探索技能"))
-      pcParam.add(parts(html, "行動技能"))
-      pcParam.add(parts(html, "交渉技能"))
-      pcParam.add(parts(html, "知識技能"))
+      let id = url.split("/")[^1]
       let tags = html.parsePcTag
 
-      var data = "{\"name\":" & $$pcName & ", \"tags\":" & $$tags & ", \"url\":" & $$url & ", \"params\":{" & pcParam.join(",") & "}}"
+      var arts: Table[string, int]
+      arts = html.parseArts("戦闘技能")
+      var battleArts = new BattleArts
+      battleArts.avoidance = CValue(name: "回避", num: arts["回避"])
+      battleArts.kick = CValue(name: "キック", num: arts["キック"])
+      battleArts.hold = CValue(name: "組み付き", num: arts["組み付き"])
+      battleArts.punch = CValue(name: "こぶし（パンチ）", num: arts["こぶし（パンチ）"])
+      battleArts.headThrust = CValue(name: "頭突き", num: arts["頭突き"])
+      battleArts.throwing = CValue(name: "投擲", num: arts["投擲"])
+      battleArts.martialArts = CValue(name: "マーシャルアーツ", num: arts["マーシャルアーツ"])
+      battleArts.handGun = CValue(name: "拳銃", num: arts["拳銃"])
+      battleArts.submachineGun = CValue(name: "サブマシンガン", num: arts["サブマシンガン"])
+      battleArts.shotGun = CValue(name: "ショットガン", num: arts["ショットガン"])
+      battleArts.machineGun = CValue(name: "マシンガン", num: arts["マシンガン"])
+      battleArts.rifle = CValue(name: "ライフル", num: arts["ライフル"])
+      
+      arts = html.parseArts("探索技能")
+      var findArts = new FindArts
+      findArts.firstAid = CValue(name: "応急手当", num: arts["応急手当"])
+      findArts.lockPicking = CValue(name: "鍵開け", num: arts["鍵開け"])
+      findArts.hide = CValue(name: "隠す", num: arts["隠す"])
+      findArts.disappear = CValue(name: "隠れる", num: arts["隠れる"])
+      findArts.ear = CValue(name: "聞き耳", num: arts["聞き耳"])
+      findArts.quietStep = CValue(name: "忍び歩き", num: arts["忍び歩き"])
+      findArts.photography = CValue(name: "写真術", num: arts["写真術"])
+      findArts.psychoAnalysis = CValue(name: "精神分析", num: arts["精神分析"])
+      findArts.tracking = CValue(name: "追跡", num: arts["追跡"])
+      findArts.climbing = CValue(name: "登攀", num: arts["登攀"])
+      findArts.library = CValue(name: "図書館", num: arts["図書館"])
+      findArts.aim = CValue(name: "目星", num: arts["目星"])
+      
+      arts = html.parseArts("行動技能")
+      var actionArts = new ActionArts
+      actionArts.driving = CValue(name: "運転", num: arts["運転"])
+      actionArts.repairingMachine = CValue(name: "機械修理", num: arts["機械修理"])
+      actionArts.operatingHeavyMachine = CValue(name: "重機械操作", num: arts["重機械操作"])
+      actionArts.ridingHorse = CValue(name: "乗馬", num: arts["乗馬"])
+      actionArts.swimming = CValue(name: "水泳", num: arts["水泳"])
+      actionArts.creating = CValue(name: "製作", num: arts["製作"])
+      actionArts.control = CValue(name: "操縦", num: arts["操縦"])
+      actionArts.jumping = CValue(name: "跳躍", num: arts["跳躍"])
+      actionArts.repairingElectric = CValue(name: "電気修理", num: arts["電気修理"])
+      actionArts.navigate = CValue(name: "ナビゲート", num: arts["ナビゲート"])
+      actionArts.disguise = CValue(name: "変装", num: arts["変装"])
+      
+      arts = html.parseArts("交渉技能")
+      var negotiationArts = new NegotiationArts
+      negotiationArts.winOver = CValue(name: "言いくるめ", num: arts["言いくるめ"])
+      negotiationArts.credit = CValue(name: "信用", num: arts["信用"])
+      negotiationArts.haggle = CValue(name: "値切り", num: arts["値切り"])
+      negotiationArts.argue = CValue(name: "説得", num: arts["説得"])
+      negotiationArts.nativeLanguage = CValue(name: "母国語", num: arts["母国語"])
+      
+      arts = html.parseArts("知識技能")
+      var knowledgeArts = new KnowledgeArts
+      knowledgeArts.medicine = CValue(name: "医学", num: arts["医学"])
+      knowledgeArts.occult = CValue(name: "オカルト", num: arts["オカルト"])
+      knowledgeArts.chemistry = CValue(name: "化学", num: arts["化学"])
+      knowledgeArts.cthulhuMythology = CValue(name: "クトゥルフ神話", num: arts["クトゥルフ神話"])
+      knowledgeArts.art = CValue(name: "芸術", num: arts["芸術"])
+      knowledgeArts.accounting = CValue(name: "経理", num: arts["経理"])
+      knowledgeArts.archeology = CValue(name: "考古学", num: arts["考古学"])
+      knowledgeArts.computer = CValue(name: "コンピューター", num: arts["コンピューター"])
+      knowledgeArts.psychology = CValue(name: "心理学", num: arts["心理学"])
+      knowledgeArts.anthropology = CValue(name: "人類学", num: arts["人類学"])
+      knowledgeArts.biology = CValue(name: "生物学", num: arts["生物学"])
+      knowledgeArts.geology = CValue(name: "地質学", num: arts["地質学"])
+      knowledgeArts.electronicEngineering = CValue(name: "電子工学", num: arts["電子工学"])
+      knowledgeArts.astronomy = CValue(name: "天文学", num: arts["天文学"])
+      knowledgeArts.naturalHistory = CValue(name: "博物学", num: arts["博物学"])
+      knowledgeArts.physics = CValue(name: "物理学", num: arts["物理学"])
+      knowledgeArts.law = CValue(name: "法律", num: arts["法律"])
+      knowledgeArts.pharmacy = CValue(name: "薬学", num: arts["薬学"])
+      knowledgeArts.history = CValue(name: "歴史", num: arts["歴史"])
+      
+      let pc = Pc(id: id, name: pcName, tags: tags, url: url,
+                  param: Param(ability: a,
+                               battleArts: battleArts,
+                               findArts: findArts,
+                               actionArts: actionArts,
+                               negotiationArts: negotiationArts,
+                               knowledgeArts: knowledgeArts))
+
+      var data = $$pc
       # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
       if i != nUrls.len - 1 and not oneLine:
         data.add(",")
