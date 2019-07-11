@@ -148,7 +148,7 @@ proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: strin
       continue
     return
 
-proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq[string]): int =
+proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   ## 出力する項目を指定しなければ、以下のデータで出力する。
@@ -181,7 +181,8 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
   of "csv":
     echo headers.join(",")
   of "json":
-    echo "["
+    if not oneLine:
+      echo "["
   
   let client = newHttpClient()
 
@@ -249,16 +250,17 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq
 
       var data = "{\"name\":" & $$pcName & ", \"tags\":" & $$tags & ", \"url\":" & $$url & ", \"params\":{" & pcParam.join(",") & "}}"
       # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
-      if i != nUrls.len - 1:
+      if i != nUrls.len - 1 and not oneLine:
         data.add(",")
       echo data
     sleep(waitTime)
     debug &"Scraping end:"
   case format
   of "json":
-    echo "]"
+    if not oneLine:
+      echo "]"
   debug &"main end:"
 
 when isMainModule:
   import cligen
-  dispatch(scrape, short={"debug":'X'})
+  dispatch(scrape, short={"debug":'X', "oneLine":'l', "waitTime":'t'})
