@@ -244,15 +244,6 @@ proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: strin
 proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
-  ## 出力する項目を指定しなければ、以下のデータで出力する。
-  ##
-  ## 1. 全部のせ 探索者の能力値、技能全てを出力する
-  ## 2. 能力値のみ出力
-  ## 3. 戦闘技能のみ出力
-  ## 4. 探索技能のみ出力
-  ## 5. 行動技能のみ出力
-  ## 6. 交渉技能のみ出力
-  ## 7. 知識技能のみ出力
   if debug:
     addHandler(newConsoleLogger(lvlAll, useStderr=true))
   debug &"main start:"
@@ -293,17 +284,6 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
     debug &"{url} is a pc url."
     pcUrls.add(url)
   nUrls = pcUrls
-  
-  when false:
-    template addArts(genre: string) =
-      block:
-        let arts = html.parseArts(genre)
-        for k in headers:
-          if arts.hasKey(k):
-            param.add(arts[k])
-
-  proc parts(html, genre: string): string =
-    "\"" & genre & "\":" & $html.parseArts(genre)
 
   # 探索者のページから能力値を取得して出力する。
   for i, url in nUrls:
@@ -321,14 +301,96 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
     let a = html.parseAbility
     case format
     of "csv":
-      when false:
-        var param = @[a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
-        addArts("戦闘技能")
-        addArts("探索技能")
-        addArts("行動技能")
-        addArts("交渉技能")
-        addArts("知識技能")
-        echo pcName & "," & param.join(",")
+      var param = @[
+        a.str.num,
+        a.con.num,
+        a.pow.num,
+        a.dex.num,
+        a.app.num,
+        a.siz.num,
+        a.int2.num,
+        a.edu.num,
+        a.hp.num,
+        a.mp.num,
+        a.initSan.num,
+        a.idea.num,
+        a.luk.num,
+        a.knowledge.num]
+      block:
+        let arts = html.parseArts("戦闘技能")
+        param.add(arts["回避"])    ## 回避
+        param.add(arts["キック"])    ## キック
+        param.add(arts["組み付き"])    ## 組み付き
+        param.add(arts["こぶし（パンチ）"])    ## こぶし（パンチ）
+        param.add(arts["頭突き"])    ## 頭突き
+        param.add(arts["投擲"])    ## 投擲
+        param.add(arts["マーシャルアーツ"])    ## マーシャルアーツ
+        param.add(arts["拳銃"])    ## 拳銃
+        param.add(arts["サブマシンガン"])    ## サブマシンガン
+        param.add(arts["ショットガン"])    ## ショットガン
+        param.add(arts["マシンガン"])    ## マシンガン
+        param.add(arts["ライフル"])    ## ライフル
+      
+      block:
+        let arts = html.parseArts("探索技能")
+        param.add(arts["応急手当"])    ## 応急手当
+        param.add(arts["鍵開け"])    ## 鍵開け
+        param.add(arts["隠す"])    ## 隠す
+        param.add(arts["隠れる"])    ## 隠れる
+        param.add(arts["聞き耳"])    ## 聞き耳
+        param.add(arts["忍び歩き"])    ## 忍び歩き
+        param.add(arts["写真術"])    ## 写真術
+        param.add(arts["精神分析"])    ## 精神分析
+        param.add(arts["追跡"])    ## 追跡
+        param.add(arts["登攀"])    ## 登攀
+        param.add(arts["図書館"])    ## 図書館
+        param.add(arts["目星"])    ## 目星
+      
+      block:
+        let arts = html.parseArts("行動技能")
+        param.add(arts["運転"])    ## 運転
+        param.add(arts["機械修理"])    ## 機械修理
+        param.add(arts["重機械操作"])    ## 重機械操作
+        param.add(arts["乗馬"])    ## 乗馬
+        param.add(arts["水泳"])    ## 水泳
+        param.add(arts["製作"])    ## 製作
+        param.add(arts["操縦"])    ## 操縦
+        param.add(arts["跳躍"])    ## 跳躍
+        param.add(arts["電気修理"])    ## 電気修理
+        param.add(arts["ナビゲート"])    ## ナビゲート
+        param.add(arts["変装"])    ## 変装
+      
+      block:
+        let arts = html.parseArts("交渉技能")
+        param.add(arts["言いくるめ"])    ## 言いくるめ
+        param.add(arts["信用"])    ## 信用
+        param.add(arts["値切り"])    ## 値切り
+        param.add(arts["説得"])    ## 説得
+        param.add(arts["母国語"])    ## 母国語
+      
+      block:
+        let arts = html.parseArts("知識技能")
+        param.add(arts["医学"])    ## 医学
+        param.add(arts["オカルト"])    ## オカルト
+        param.add(arts["化学"])    ## 化学
+        param.add(arts["クトゥルフ神話"])    ## クトゥルフ神話
+        param.add(arts["芸術"])    ## 芸術
+        param.add(arts["経理"])    ## 経理
+        param.add(arts["考古学"])    ## 考古学
+        param.add(arts["コンピューター"])    ## コンピューター
+        param.add(arts["心理学"])    ## 心理学
+        param.add(arts["人類学"])    ## 人類学
+        param.add(arts["生物学"])    ## 生物学
+        param.add(arts["地質学"])    ## 地質学
+        param.add(arts["電子工学"])    ## 電子工学
+        param.add(arts["天文学"])    ## 天文学
+        param.add(arts["博物学"])    ## 博物学
+        param.add(arts["物理学"])    ## 物理学
+        param.add(arts["法律"])    ## 法律
+        param.add(arts["薬学"])    ## 薬学
+        param.add(arts["歴史"])    ## 歴史
+      
+      echo pcName & "," & param.join(",")
     of "json":
       let id = url.split("/")[^1]
       let tags = html.parsePcTag
