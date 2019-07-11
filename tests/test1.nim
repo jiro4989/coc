@@ -148,3 +148,10 @@ suite "proc isListPageUrl":
    check "https://charasheet.vampire-blood.net/list_coc.html?tag=あ".isListPageUrl
   test "Not list url":
    check not "https://charasheet.vampire-blood.net/md735ff4433f26664a3cc8c4e4b6076eb".isListPageUrl
+
+suite "proc hasListItem":
+  test "true":
+    check listhtml.hasListItem
+  test "false":
+    let html = "tests/list_out.html".readFile
+    check not html.hasListItem
