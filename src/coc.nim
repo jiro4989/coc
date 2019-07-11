@@ -3,8 +3,101 @@ from os import sleep
 from strformat import `&`
 
 type
+  Pc* = ref object
+    id*: string
+    name*: string
+    tags*: seq[string]
+    url*: string
+    params*: Param
+  Param* = ref object
+    ability*: Ability
+    battleArts*: BattleArts
+    findArts*: FindArts
+    actionArts*: ActionArts
+    negotiationArts*: NegotiationArts
+    knowledgeArts*: KnowledgeArts
+  CValue* = object
+    namae*: string
+    num*: int
   Ability* = ref object
-    str*, con*, pow*, dex*, app*, siz*, int2*, edu*, hp*, mp*, initSan*, idea*, luk*, knowledge*: int
+    str*: CValue    ## STR
+    con*: CValue    ## CON
+    pow*: CValue    ## POW
+    dex*: CValue    ## DEX
+    app*: CValue    ## APP
+    siz*: CValue    ## SIZ
+    int2*: CValue    ## INT
+    edu*: CValue    ## EDU
+    hp*: CValue    ## HP
+    mp*: CValue    ## MP
+    initSan*: CValue    ## 初期SAN
+    idea*: CValue    ## アイデア
+    luk*: CValue    ## 幸運
+    knowledge*: CValue    ## 知識
+  BattleArts* = ref object
+    avoidance*: CValue    ## 回避
+    kick*: CValue    ## キック
+    hold*: CValue    ## 組み付き
+    punch*: CValue    ## こぶし（パンチ）
+    headThrust*: CValue    ## 頭突き
+    throwing*: CValue    ## 投擲
+    martialArts*: CValue    ## マーシャルアーツ
+    handGun*: CValue    ## 拳銃
+    submachineGun*: CValue    ## サブマシンガン
+    shotGun*: CValue    ## ショットガン
+    machineGun*: CValue    ## マシンガン
+    rifle*: CValue    ## ライフル
+  FindArts* = ref object
+    firstAid*: CValue    ## 応急手当
+    lockPicking*: CValue    ## 鍵開け
+    hide*: CValue    ## 隠す
+    disappear*: CValue    ## 隠れる
+    ear*: CValue    ## 聞き耳
+    quietStep*: CValue    ## 忍び歩き
+    photography*: CValue    ## 写真術
+    psychoAnalysis*: CValue    ## 精神分析
+    tracking*: CValue    ## 追跡
+    climbing*: CValue    ## 登攀
+    library*: CValue    ## 図書館
+    aim*: CValue    ## 目星
+  ActionArts* = ref object
+    driving*: CValue    ## 運転
+    repairingMachine*: CValue    ## 機械修理
+    operatingHeavyMachine*: CValue    ## 重機械操作
+    ridingHorse*: CValue    ## 乗馬
+    swimming*: CValue    ## 水泳
+    creating*: CValue    ## 製作
+    control*: CValue    ## 操縦
+    jumping*: CValue    ## 跳躍
+    repairingElectric*: CValue    ## 電気修理
+    navigate*: CValue    ## ナビゲート
+    disguise*: CValue    ## 変装
+  NegotiationArts* = ref object
+    winOver*: CValue    ## 言いくるめ
+    credit*: CValue    ## 信用
+    haggle*: CValue    ## 値切り
+    argue*: CValue    ## 説得
+    nativeLanguage*: CValue    ## 母国語
+  KnowledgeArts* = ref object
+    medicine*: CValue    ## 医学
+    occult*: CValue    ## オカルト
+    chemistry*: CValue    ## 化学
+    cthulhuMythology*: CValue    ## クトゥルフ神話
+    art*: CValue    ## 芸術
+    accounting*: CValue    ## 経理
+    archeology*: CValue    ## 考古学
+    computer*: CValue    ## コンピューター
+    psychology*: CValue    ## 心理学
+    anthropology*: CValue    ## 人類学
+    biology*: CValue    ## 生物学
+    geology*: CValue    ## 地質学
+    electronicEngineering*: CValue    ## 電子工学
+    astronomy*: CValue    ## 天文学
+    naturalHistory*: CValue    ## 博物学
+    physics*: CValue    ## 物理学
+    law*: CValue    ## 法律
+    pharmacy*: CValue    ## 薬学
+    history*: CValue    ## 歴史
 
 proc getTags*(html, tag: string, attrClass=""): seq[string] =
   ## HTMLのタグ要素をタグを含めて取得
