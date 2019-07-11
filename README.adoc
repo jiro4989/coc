@@ -30,7 +30,7 @@ nimble -v
 
 [source,bash]
 ----
-coc --list "https://charasheet.vampire-blood.net/list_coc.html?tag=jiro" -f json
+coc "https://charasheet.vampire-blood.net/list_coc.html?tag=jiro" -f json
 ----
 
 == License
