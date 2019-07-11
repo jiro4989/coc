@@ -1,5 +1,6 @@
-import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, tables, marshal
+import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, tables, marshal, logging
 from os import sleep
+from strformat import `&`
 
 type
   Ability* = ref object
@@ -127,7 +128,7 @@ proc isListPageUrl*(url: string): bool =
   let lastUrlPath = url.split("/")[^1]
   result = 0 < ["list.html?tag=", "list_coc.html?tag="].filterIt(lastUrlPath.startsWith(it)).len
 
-proc scrape(format="csv", recursive=false, urls: seq[string]): int =
+proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   ## 出力する項目を指定しなければ、以下のデータで出力する。
@@ -139,6 +140,10 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
   ## 5. 行動技能のみ出力
   ## 6. 交渉技能のみ出力
   ## 7. 知識技能のみ出力
+  if debug:
+    addHandler(newConsoleLogger(lvlAll, useStderr=true))
+  debug &"main start:"
+
   let abilHeaders = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識", ]
   let btlHeaders = [ "回避", "キック", "組み付き", "こぶし（パンチ）", "頭突き", "投擲", "マーシャルアーツ", "拳銃", "サブマシンガン", "ショットガン", "マシンガン", "ライフル", ]
   let findHeaders = ["応急手当", "鍵開け", "隠す", "隠れる", "聞き耳", "忍び歩き", "写真術", "精神分析", "追跡", "登攀", "図書館", "目星", ]
@@ -155,6 +160,8 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
   case format
   of "csv":
     echo headers.join(",")
+  of "json":
+    echo "["
   
   let client = newHttpClient()
 
@@ -165,10 +172,12 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
   for url in urls:
     # リストページのURLのときはスクレイピングしてページを取得
     if url.isListPageUrl:
+      debug &"{url} is a list url."
       let links = client.get(url).body.parsePcUrls
       pcUrls.add(links)
       continue
     # それ以外はそのまま追加
+    debug &"{url} is a pc url."
     pcUrls.add(url)
   nUrls = pcUrls
   
@@ -183,19 +192,22 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
     "\"" & genre & "\":" & $html.parseArts(genre)
 
   # 探索者のページから能力値を取得して出力する。
-  var jsonList: seq[string]
-  for url in nUrls:
+  for i, url in nUrls:
+    debug &"Scraping start: i = {i}, url = {url}"
+
     let html = client.get(url).body
 
     # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
     # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
     if not html.isCoCPcMakingPage:
+      debug &"{url} is not Coc url."
       continue
 
     let pcName = html.parsePcName
     let a = html.parseAbility
     case format
     of "csv":
+      debug &"Format is csv."
       var param = @[a.str, a.con, a.pow, a.dex, a.app, a.siz, a.int2, a.edu, a.hp, a.mp, a.initSan, a.idea, a.luk, a.knowledge]
       addArts("戦闘技能")
       addArts("探索技能")
@@ -204,11 +216,11 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
       addArts("知識技能")
       echo pcName & "," & param.join(",")
     of "json":
+      debug &"Format is json."
       let abil = {"STR":a.str, "CON":a.con, "POW":a.pow, "DEX":a.dex,
                   "APP":a.app, "SIZ":a.siz, "INT":a.int2, "EDU":a.edu,
                   "HP":a.hp, "MP":a.mp, "初期SAN":a.initSan, "アイデア":a.idea,
                   "幸運":a.luk, "知識":a.knowledge}.toTable
-      #var data = {"能力値": abil}.toTable
       var pcParam: seq[string]
       pcParam.add("\"" & "能力値" & "\":" & $abil)
       pcParam.add(parts(html, "戦闘技能"))
@@ -217,16 +229,19 @@ proc scrape(format="csv", recursive=false, urls: seq[string]): int =
       pcParam.add(parts(html, "交渉技能"))
       pcParam.add(parts(html, "知識技能"))
       let tags = html.parsePcTag
-      jsonList.add("{\"name\":" & $$pcName & ", \"tags\":" & $$tags & ", \"url\":" & $$url & ", \"params\":{" & pcParam.join(",") & "}}")
-      
-      # echo "\"" & "知識技能" & "\"", ":", html.parseArts(" & ")
-      # echo "}"
-      #jsonData.add(pcName, data)
-    sleep(1)
+
+      var data = "{\"name\":" & $$pcName & ", \"tags\":" & $$tags & ", \"url\":" & $$url & ", \"params\":{" & pcParam.join(",") & "}}"
+      # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
+      if i != nUrls.len - 1:
+        data.add(",")
+      echo data
+    sleep(waitTime)
+    debug &"Scraping end: i = {i}, url = {url}"
   case format
   of "json":
-    echo "[\n", jsonList.join(",\n"), "\n]"
+    echo "]"
+  debug &"main end:"
 
 when isMainModule:
   import cligen
-  dispatch(scrape)
+  dispatch(scrape, short={"debug":'X'})
