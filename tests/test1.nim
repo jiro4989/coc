@@ -25,10 +25,21 @@ let p1html = readFile("tests/p1.html")
 
 suite "proc parseAbility":
   test "Parse":
-    check p1html.parseAbility[] == Ability(str: 14, con: 18, pow: 11, dex: 9,
-                                         app: 9, siz: 13, int2: 14, edu: 12, 
-                                         hp: 16, mp: 11, initSan: 55, idea: 70,
-                                         luk: 55, knowledge: 60)[]
+    check p1html.parseAbility == Ability(
+      str:       CValue(name: "STR", num: 14),
+      con:       CValue(name: "CON", num: 18),
+      pow:       CValue(name: "POW", num: 11),
+      dex:       CValue(name: "DEX", num: 9),
+      app:       CValue(name: "APP", num: 9),
+      siz:       CValue(name: "SIZ", num: 13),
+      int2:      CValue(name: "INT", num: 14),
+      edu:       CValue(name: "EDU", num: 12),
+      hp:        CValue(name: "HP", num: 16),
+      mp:        CValue(name: "MP", num: 11),
+      initSan:   CValue(name: "初期SAN", num: 55),
+      idea:      CValue(name: "アイデア", num: 70),
+      luk:       CValue(name: "幸運", num: 55),
+      knowledge: CValue(name: "知識", num: 60))
 
 block:
   let allianHtml = readFile("tests/allian.html")
