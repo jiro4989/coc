@@ -2,6 +2,10 @@ import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, table
 from os import sleep
 from strformat import `&`
 
+const
+  retryCount = 6
+  retrySleepMS = 5000
+
 type
   Pc* = ref object
     id*: string
@@ -227,13 +231,25 @@ proc hasListItem*(html: string): bool =
       if "リスト項目がありません" in elem2:
         return false
 
+proc retryGet(client: HttpClient, url: string): string =
+  for i in 1..retryCount:
+    try:
+      result = client.get(url).body
+      return
+    except:
+      error(getCurrentExceptionMsg())
+      if i == retryCount:
+        raise getCurrentException()
+      sleep(retrySleepMS)
+      continue
+
 proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: string, waitTime: int) =
   ## urlにリストページのURLを指定すると、次のリストページを順に辿っていき、
   ## ページがなくなるまで探索者のページURLを取得して追加する。
   for i in 1..100:
     let nextUrl = url & "&order=&page=" & $i
     debug &"Next list url is {nextUrl}"
-    let html = client.get(nextUrl).body
+    let html = client.retryGet(url)
     sleep(waitTime)
     if html.hasListItem:
       urls.add(html.parsePcUrls)
@@ -275,7 +291,7 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
   for i, url in urls:
     debug &"Scraping start: [{i+1}/{urls.len}] i = {i}, url = {url}"
 
-    let html = client.get(url).body
+    let html = client.retryGet(url)
 
     # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
     # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
@@ -390,7 +406,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
     for i, url in urls:
       debug &"Scraping start: [{i+1}/{urls.len}] i = {i}, url = {url}"
 
-      let html = client.get(url).body
+      let html = client.retryGet(url)
 
       # 取得先のURLはクトゥルフ神話のシート以外が混ざっている可能性があるため
       # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
