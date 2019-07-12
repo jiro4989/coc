@@ -249,7 +249,7 @@ proc addPcPageUrlResursive(urls: var seq[string], client: HttpClient, url: strin
   for i in 1..100:
     let nextUrl = url & "&order=&page=" & $i
     debug &"Next list url is {nextUrl}"
-    let html = client.retryGet(url)
+    let html = client.retryGet(nextUrl)
     sleep(waitTime)
     if html.hasListItem:
       urls.add(html.parsePcUrls)
