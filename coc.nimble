@@ -1,6 +1,6 @@
 # Package
 
-version       = "2.0.0"
+version       = "2.1.0"
 author        = "jiro4989"
 description   = "A new awesome nimble package"
 license       = "MIT"
@@ -19,8 +19,8 @@ task ci, "Run CI":
   exec "nimble -v"
   exec "nimble install -Y"
   exec "nimble test -Y"
-  #exec "nimble docs -Y"
   exec "nimble build -d:release -Y"
+  exec "./bin/coc -Xf json 'https://charasheet.vampire-blood.net/mebb31fcc04f70c0e8c7b272594393e10'"
   #exec "nimble examples"
   #exec "nimble buildjs"
   #exec "./bin/nimjson -h"
