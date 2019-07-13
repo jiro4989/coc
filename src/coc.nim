@@ -5,6 +5,7 @@ from strformat import `&`
 const
   retryCount = 6
   retrySleepMS = 5000
+  pcUrlRoot = "https://charasheet.vampire-blood.net"
 
 type
   Pc* = ref object
@@ -423,7 +424,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       let a = html.parseAbility
       let id = html.parsePcId
       # URLの表現の仕方が複数あるようなので、すべてIDを使ったURLに統一する
-      let newUrl = "https://charasheet.vampire-blood.net" & id
+      let newUrl = &"{pcUrlRoot}/{id}"
       let tags = html.parsePcTag
 
       var arts: Table[string, int]
