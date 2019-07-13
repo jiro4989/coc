@@ -1,10 +1,12 @@
 import httpclient, streams, htmlparser, xmltree, pegs, strutils, sequtils, tables, marshal, logging
 from os import sleep
 from strformat import `&`
+from algorithm import sort
 
 const
   retryCount = 6
   retrySleepMS = 5000
+  pcUrlRoot = "https://charasheet.vampire-blood.net"
 
 type
   Pc* = ref object
@@ -218,6 +220,11 @@ proc parsePcTag*(html: string): seq[string] =
                    .strip
     result.add(text)
 
+proc parsePcId*(html: string): string =
+  for elem in html.getTags("span", attrClass="show_id"):
+    return elem.replace(peg"""\<\/?span[^\>]*\>""", "")
+               .split(":")[1]
+
 proc isListPageUrl*(url: string): bool =
   ## URLがリストページのものかを調べる。
   ## URLは一応
@@ -394,7 +401,7 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
     sleep(waitTime)
     debug &"Scraping end:"
 
-proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: bool) =
+proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: bool, useSort: bool) =
   template wrapCall(body: untyped) =
     if not oneLine:
       echo "["
@@ -403,6 +410,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       echo "]"
 
   wrapCall:
+    var pcList: seq[Pc]
     for i, url in urls:
       debug &"Scraping start: [{i+1}/{urls.len}] i = {i}, url = {url}"
 
@@ -416,7 +424,9 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
 
       let pcName = html.parsePcName
       let a = html.parseAbility
-      let id = url.split("/")[^1]
+      let id = html.parsePcId
+      # URLの表現の仕方が複数あるようなので、すべてIDを使ったURLに統一する
+      let newUrl = &"{pcUrlRoot}/{id}"
       let tags = html.parsePcTag
 
       var arts: Table[string, int]
@@ -494,7 +504,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       knowledgeArts.pharmacy = CValue(name: "薬学", num: arts["薬学"])
       knowledgeArts.history = CValue(name: "歴史", num: arts["歴史"])
       
-      let pc = Pc(id: id, name: pcName, tags: tags, url: url,
+      let pc = Pc(id: id, name: pcName, tags: tags, url: newUrl,
                   param: Param(ability: a,
                               battleArts: battleArts,
                               findArts: findArts,
@@ -502,15 +512,32 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
                               negotiationArts: negotiationArts,
                               knowledgeArts: knowledgeArts))
 
-      var data = $$pc[]
-      # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
-      if i != urls.len - 1 and not oneLine:
-        data.add(",")
-      echo data
+      # ソート機能が有効なときはループの都度出力をせずリストに追加だけする。
+      # 出力は全てのループが完了したタイミングで、そのときにソートもする。
+      if useSort:
+        pcList.add(pc)
+      else:
+        # ソートOFFならループの都度JSONを出力する。
+        var data = $$pc[]
+        # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
+        if i != urls.len - 1 and not oneLine:
+          data.add(",")
+        echo data
       sleep(waitTime)
       debug &"Scraping end:"
+    if useSort:
+      # IDでオブジェクトをソートする
+      pcList.sort do (x, y: Pc) -> int:
+        result = cmp(x.id.parseInt, y.id.parseInt)
 
-proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, urls: seq[string]): int =
+      for i, pc in pcList:
+        var data = $$pc[]
+        # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
+        if i != pcList.len - 1 and not oneLine:
+          data.add(",")
+        echo data
+
+proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, sort=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   if debug:
@@ -523,7 +550,7 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
   of "csv":
     processCsv(pcUrls, client, waitTime)
   of "json":
-    processJson(pcUrls, client, waitTime, oneLine)
+    processJson(pcUrls, client, waitTime, oneLine, sort)
   debug &"main end:"
 
 when isMainModule:
