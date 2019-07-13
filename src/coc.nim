@@ -218,6 +218,11 @@ proc parsePcTag*(html: string): seq[string] =
                    .strip
     result.add(text)
 
+proc parsePcId*(html: string): string =
+  for elem in html.getTags("span", attrClass="show_id"):
+    return elem.replace(peg"""\<\/?span[^\>]*\>""", "")
+               .split(":")[1]
+
 proc isListPageUrl*(url: string): bool =
   ## URLがリストページのものかを調べる。
   ## URLは一応
@@ -416,7 +421,9 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
 
       let pcName = html.parsePcName
       let a = html.parseAbility
-      let id = url.split("/")[^1]
+      let id = html.parsePcId
+      # URLの表現の仕方が複数あるようなので、すべてIDを使ったURLに統一する
+      let newUrl = "https://charasheet.vampire-blood.net" & id
       let tags = html.parsePcTag
 
       var arts: Table[string, int]
@@ -494,7 +501,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       knowledgeArts.pharmacy = CValue(name: "薬学", num: arts["薬学"])
       knowledgeArts.history = CValue(name: "歴史", num: arts["歴史"])
       
-      let pc = Pc(id: id, name: pcName, tags: tags, url: url,
+      let pc = Pc(id: id, name: pcName, tags: tags, url: newUrl,
                   param: Param(ability: a,
                               battleArts: battleArts,
                               findArts: findArts,

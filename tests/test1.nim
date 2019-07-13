@@ -151,6 +151,10 @@ suite "proc parsePcTag":
   test "Parse":
    check p1html.parsePcTag == @["jiro"]
 
+suite "proc parsePcId":
+  test "Parse":
+   check p1html.parsePcId == "2529780"
+
 suite "proc isListPageUrl":
   test "Normal url":
    check "https://charasheet.vampire-blood.net/list.html?tag=jiro".isListPageUrl
