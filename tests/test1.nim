@@ -170,3 +170,11 @@ suite "proc hasListItem":
   test "false":
     let html = "tests/list_out.html".readFile
     check not html.hasListItem
+
+let notFoundHtml = readFile("tests/404.html")
+
+suite "proc is404NotFoundPage":
+  test "true":
+    check notFoundHtml.is404NotFoundPage
+  test "false":
+    check not p1html.is404NotFoundPage

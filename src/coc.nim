@@ -195,6 +195,15 @@ proc isCoCPcMakingPage*(html: string): bool =
   let genre = html.parsePageGenre
   result = genre == "クトゥルフPC作成ツール"
 
+proc is404NotFoundPage*(html: string): bool =
+  for mainDiv in html.getTags("div", attrClass="main"):
+    for d in mainDiv.getTags("div", attrClass="maincontent"):
+      for h3 in mainDiv.getTags("h3"):
+        let title = h3.replace(peg"""\<\/?[^\>]+\>""", "")
+        if title == "404: not found":
+          return true
+        return false
+
 proc parsePcName*(html: string): string =
   ## 探索者名を取得
   for head in html.getTags("div"):
@@ -420,6 +429,12 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       # 取得先URLの一部を判定してクトゥルフ神話以外を除外する。
       if not html.isCoCPcMakingPage:
         debug &"{url} is not Coc url."
+        continue
+      
+      # 取得先ページの探索者がすでに削除されている可能性があるため
+      # 削除済みの探索者の場合はwarnを出力して処理を継続する
+      if not html.is404NotFoundPage:
+        warn &"{url} is not found."
         continue
 
       let pcName = html.parsePcName
