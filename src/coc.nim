@@ -433,8 +433,8 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       
       # 取得先ページの探索者がすでに削除されている可能性があるため
       # 削除済みの探索者の場合はwarnを出力して処理を継続する
-      if not html.is404NotFoundPage:
-        warn &"{url} is not found."
+      if html.is404NotFoundPage:
+        warn &"{url} is 404 not found page."
         continue
 
       let pcName = html.parsePcName
