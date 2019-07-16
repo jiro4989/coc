@@ -290,7 +290,7 @@ proc fetchPcUrls(urls: seq[string], client: HttpClient, waitTime: int): seq[stri
     debug &"{url} is a pc url."
     result.add(url)
 
-proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
+iterator processCsv*(urls: seq[string], client: HttpClient, waitTime: int): string =
   ## 出力書式CSVとしてデータを処理する。
   # CSVヘッダの出力
   let abilHeaders = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識", ]
@@ -306,7 +306,7 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
   headers.add(actHeaders)
   headers.add(negoHeaders)
   headers.add(intHeaders)
-  echo headers.join(",")
+  yield headers.join(",")
 
   # CSVボディを出力
   for i, url in urls:
@@ -411,17 +411,18 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
       param.add(arts.getOrDefault("薬学"))    ## 薬学
       param.add(arts.getOrDefault("歴史"))    ## 歴史
     
-    echo pcName & "," & param.join(",")
+    yield pcName & "," & param.join(",")
     sleep(waitTime)
     debug &"Scraping end:"
 
-proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: bool, useSort: bool) =
+iterator processJson*(urls: seq[string], client: HttpClient, waitTime: int,
+                      oneLine: bool, useSort: bool): string =
   template wrapCall(body: untyped) =
     if not oneLine:
-      echo "["
+      yield "["
     body
     if not oneLine:
-      echo "]"
+      yield "]"
 
   wrapCall:
     var pcList: seq[Pc]
@@ -542,7 +543,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
         # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
         if i != urls.len - 1 and not oneLine:
           data.add(",")
-        echo data
+        yield data
       sleep(waitTime)
       debug &"Scraping end:"
     if useSort:
@@ -555,7 +556,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
         # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
         if i != pcList.len - 1 and not oneLine:
           data.add(",")
-        echo data
+        yield data
 
 proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, sort=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
@@ -570,9 +571,11 @@ proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=f
   let pcUrls = fetchPcUrls(urls, client, waitTime)
   case format
   of "csv":
-    processCsv(pcUrls, client, waitTime)
+    for line in processCsv(pcUrls, client, waitTime):
+      echo line
   of "json":
-    processJson(pcUrls, client, waitTime, oneLine, sort)
+    for line in processJson(pcUrls, client, waitTime, oneLine, sort):
+      echo line
   debug &"main end:"
 
 when isMainModule:
