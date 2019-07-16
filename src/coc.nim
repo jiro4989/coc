@@ -211,9 +211,9 @@ proc is404NotFoundPage*(html: string): bool =
 
 proc parsePcName*(html: string): string =
   ## 探索者名を取得
-  for head in html.getTags("div"):
-    if "head_breadcrumb" in head:
-      result = head.getTags("a")[^1].replace(peg"""\<\/?[^\>]+\>""", "")
+  for mainDiv in html.getTags("div", attrClass="maincontent"):
+    for h3 in mainDiv.getTags("h3"):
+      result = h3.replace(peg"""\<\/?[^\>]+\>""", "")
       return
 
 proc parsePcUrls*(html: string): seq[string] =
