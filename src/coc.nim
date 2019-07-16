@@ -176,7 +176,12 @@ proc parseArts*(html, header: string): Table[string, int] =
           # 括弧内に任意の文字列を入れられる要素の修正
           if "input" in k:
             k = k.replace(peg"""\(.*""", "")
-          let v = sumElem[0].parseAttrValues[0]
+          # 行によっては初期値すらも削除することが可能なので、エラーチェック
+          let v = try:
+            sumElem[0].parseAttrValues[0]
+          except:
+            warn &"{k} value is not found."
+            0
           result[k] = v
   
 proc parsePageGenre*(html: string): string =
@@ -194,6 +199,15 @@ proc parsePageGenre*(html: string): string =
 proc isCoCPcMakingPage*(html: string): bool =
   let genre = html.parsePageGenre
   result = genre == "クトゥルフPC作成ツール"
+
+proc is404NotFoundPage*(html: string): bool =
+  for mainDiv in html.getTags("div", attrClass="main"):
+    for d in mainDiv.getTags("div", attrClass="maincontent"):
+      for h3 in mainDiv.getTags("h3"):
+        let title = h3.replace(peg"""\<\/?[^\>]+\>""", "")
+        if title == "404: not found":
+          return true
+        return false
 
 proc parsePcName*(html: string): string =
   ## 探索者名を取得
@@ -276,7 +290,7 @@ proc fetchPcUrls(urls: seq[string], client: HttpClient, waitTime: int): seq[stri
     debug &"{url} is a pc url."
     result.add(url)
 
-proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
+iterator processCsv*(urls: seq[string], client: HttpClient, waitTime: int): string =
   ## 出力書式CSVとしてデータを処理する。
   # CSVヘッダの出力
   let abilHeaders = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT", "EDU", "HP", "MP", "初期SAN", "アイデア", "幸運", "知識", ]
@@ -292,7 +306,7 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
   headers.add(actHeaders)
   headers.add(negoHeaders)
   headers.add(intHeaders)
-  echo headers.join(",")
+  yield headers.join(",")
 
   # CSVボディを出力
   for i, url in urls:
@@ -325,89 +339,90 @@ proc processCsv(urls: seq[string], client: HttpClient, waitTime: int) =
       a.knowledge.num]
     block:
       let arts = html.parseArts("戦闘技能")
-      param.add(arts["回避"])    ## 回避
-      param.add(arts["キック"])    ## キック
-      param.add(arts["組み付き"])    ## 組み付き
-      param.add(arts["こぶし（パンチ）"])    ## こぶし（パンチ）
-      param.add(arts["頭突き"])    ## 頭突き
-      param.add(arts["投擲"])    ## 投擲
-      param.add(arts["マーシャルアーツ"])    ## マーシャルアーツ
-      param.add(arts["拳銃"])    ## 拳銃
-      param.add(arts["サブマシンガン"])    ## サブマシンガン
-      param.add(arts["ショットガン"])    ## ショットガン
-      param.add(arts["マシンガン"])    ## マシンガン
-      param.add(arts["ライフル"])    ## ライフル
+      param.add(arts.getOrDefault("回避"))    ## 回避
+      param.add(arts.getOrDefault("キック"))    ## キック
+      param.add(arts.getOrDefault("組み付き"))    ## 組み付き
+      param.add(arts.getOrDefault("こぶし（パンチ）"))    ## こぶし（パンチ）
+      param.add(arts.getOrDefault("頭突き"))    ## 頭突き
+      param.add(arts.getOrDefault("投擲"))    ## 投擲
+      param.add(arts.getOrDefault("マーシャルアーツ"))    ## マーシャルアーツ
+      param.add(arts.getOrDefault("拳銃"))    ## 拳銃
+      param.add(arts.getOrDefault("サブマシンガン"))    ## サブマシンガン
+      param.add(arts.getOrDefault("ショットガン"))    ## ショットガン
+      param.add(arts.getOrDefault("マシンガン"))    ## マシンガン
+      param.add(arts.getOrDefault("ライフル"))    ## ライフル
     
     block:
       let arts = html.parseArts("探索技能")
-      param.add(arts["応急手当"])    ## 応急手当
-      param.add(arts["鍵開け"])    ## 鍵開け
-      param.add(arts["隠す"])    ## 隠す
-      param.add(arts["隠れる"])    ## 隠れる
-      param.add(arts["聞き耳"])    ## 聞き耳
-      param.add(arts["忍び歩き"])    ## 忍び歩き
-      param.add(arts["写真術"])    ## 写真術
-      param.add(arts["精神分析"])    ## 精神分析
-      param.add(arts["追跡"])    ## 追跡
-      param.add(arts["登攀"])    ## 登攀
-      param.add(arts["図書館"])    ## 図書館
-      param.add(arts["目星"])    ## 目星
+      param.add(arts.getOrDefault("応急手当"))    ## 応急手当
+      param.add(arts.getOrDefault("鍵開け"))    ## 鍵開け
+      param.add(arts.getOrDefault("隠す"))    ## 隠す
+      param.add(arts.getOrDefault("隠れる"))    ## 隠れる
+      param.add(arts.getOrDefault("聞き耳"))    ## 聞き耳
+      param.add(arts.getOrDefault("忍び歩き"))    ## 忍び歩き
+      param.add(arts.getOrDefault("写真術"))    ## 写真術
+      param.add(arts.getOrDefault("精神分析"))    ## 精神分析
+      param.add(arts.getOrDefault("追跡"))    ## 追跡
+      param.add(arts.getOrDefault("登攀"))    ## 登攀
+      param.add(arts.getOrDefault("図書館"))    ## 図書館
+      param.add(arts.getOrDefault("目星"))    ## 目星
     
     block:
       let arts = html.parseArts("行動技能")
-      param.add(arts["運転"])    ## 運転
-      param.add(arts["機械修理"])    ## 機械修理
-      param.add(arts["重機械操作"])    ## 重機械操作
-      param.add(arts["乗馬"])    ## 乗馬
-      param.add(arts["水泳"])    ## 水泳
-      param.add(arts["製作"])    ## 製作
-      param.add(arts["操縦"])    ## 操縦
-      param.add(arts["跳躍"])    ## 跳躍
-      param.add(arts["電気修理"])    ## 電気修理
-      param.add(arts["ナビゲート"])    ## ナビゲート
-      param.add(arts["変装"])    ## 変装
+      param.add(arts.getOrDefault("運転"))    ## 運転
+      param.add(arts.getOrDefault("機械修理"))    ## 機械修理
+      param.add(arts.getOrDefault("重機械操作"))    ## 重機械操作
+      param.add(arts.getOrDefault("乗馬"))    ## 乗馬
+      param.add(arts.getOrDefault("水泳"))    ## 水泳
+      param.add(arts.getOrDefault("製作"))    ## 製作
+      param.add(arts.getOrDefault("操縦"))    ## 操縦
+      param.add(arts.getOrDefault("跳躍"))    ## 跳躍
+      param.add(arts.getOrDefault("電気修理"))    ## 電気修理
+      param.add(arts.getOrDefault("ナビゲート"))    ## ナビゲート
+      param.add(arts.getOrDefault("変装"))    ## 変装
     
     block:
       let arts = html.parseArts("交渉技能")
-      param.add(arts["言いくるめ"])    ## 言いくるめ
-      param.add(arts["信用"])    ## 信用
-      param.add(arts["値切り"])    ## 値切り
-      param.add(arts["説得"])    ## 説得
-      param.add(arts["母国語"])    ## 母国語
+      param.add(arts.getOrDefault("言いくるめ"))    ## 言いくるめ
+      param.add(arts.getOrDefault("信用"))    ## 信用
+      param.add(arts.getOrDefault("値切り"))    ## 値切り
+      param.add(arts.getOrDefault("説得"))    ## 説得
+      param.add(arts.getOrDefault("母国語"))    ## 母国語
     
     block:
       let arts = html.parseArts("知識技能")
-      param.add(arts["医学"])    ## 医学
-      param.add(arts["オカルト"])    ## オカルト
-      param.add(arts["化学"])    ## 化学
-      param.add(arts["クトゥルフ神話"])    ## クトゥルフ神話
-      param.add(arts["芸術"])    ## 芸術
-      param.add(arts["経理"])    ## 経理
-      param.add(arts["考古学"])    ## 考古学
-      param.add(arts["コンピューター"])    ## コンピューター
-      param.add(arts["心理学"])    ## 心理学
-      param.add(arts["人類学"])    ## 人類学
-      param.add(arts["生物学"])    ## 生物学
-      param.add(arts["地質学"])    ## 地質学
-      param.add(arts["電子工学"])    ## 電子工学
-      param.add(arts["天文学"])    ## 天文学
-      param.add(arts["博物学"])    ## 博物学
-      param.add(arts["物理学"])    ## 物理学
-      param.add(arts["法律"])    ## 法律
-      param.add(arts["薬学"])    ## 薬学
-      param.add(arts["歴史"])    ## 歴史
+      param.add(arts.getOrDefault("医学"))    ## 医学
+      param.add(arts.getOrDefault("オカルト"))    ## オカルト
+      param.add(arts.getOrDefault("化学"))    ## 化学
+      param.add(arts.getOrDefault("クトゥルフ神話"))    ## クトゥルフ神話
+      param.add(arts.getOrDefault("芸術"))    ## 芸術
+      param.add(arts.getOrDefault("経理"))    ## 経理
+      param.add(arts.getOrDefault("考古学"))    ## 考古学
+      param.add(arts.getOrDefault("コンピューター"))    ## コンピューター
+      param.add(arts.getOrDefault("心理学"))    ## 心理学
+      param.add(arts.getOrDefault("人類学"))    ## 人類学
+      param.add(arts.getOrDefault("生物学"))    ## 生物学
+      param.add(arts.getOrDefault("地質学"))    ## 地質学
+      param.add(arts.getOrDefault("電子工学"))    ## 電子工学
+      param.add(arts.getOrDefault("天文学"))    ## 天文学
+      param.add(arts.getOrDefault("博物学"))    ## 博物学
+      param.add(arts.getOrDefault("物理学"))    ## 物理学
+      param.add(arts.getOrDefault("法律"))    ## 法律
+      param.add(arts.getOrDefault("薬学"))    ## 薬学
+      param.add(arts.getOrDefault("歴史"))    ## 歴史
     
-    echo pcName & "," & param.join(",")
+    yield pcName & "," & param.join(",")
     sleep(waitTime)
     debug &"Scraping end:"
 
-proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: bool, useSort: bool) =
+iterator processJson*(urls: seq[string], client: HttpClient, waitTime: int,
+                      oneLine: bool, useSort: bool): string =
   template wrapCall(body: untyped) =
     if not oneLine:
-      echo "["
+      yield "["
     body
     if not oneLine:
-      echo "]"
+      yield "]"
 
   wrapCall:
     var pcList: seq[Pc]
@@ -421,6 +436,12 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       if not html.isCoCPcMakingPage:
         debug &"{url} is not Coc url."
         continue
+      
+      # 取得先ページの探索者がすでに削除されている可能性があるため
+      # 削除済みの探索者の場合はwarnを出力して処理を継続する
+      if html.is404NotFoundPage:
+        warn &"{url} is 404 not found page."
+        continue
 
       let pcName = html.parsePcName
       let a = html.parseAbility
@@ -432,77 +453,77 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
       var arts: Table[string, int]
       arts = html.parseArts("戦闘技能")
       var battleArts: BattleArts
-      battleArts.avoidance = CValue(name: "回避", num: arts["回避"])
-      battleArts.kick = CValue(name: "キック", num: arts["キック"])
-      battleArts.hold = CValue(name: "組み付き", num: arts["組み付き"])
-      battleArts.punch = CValue(name: "こぶし（パンチ）", num: arts["こぶし（パンチ）"])
-      battleArts.headThrust = CValue(name: "頭突き", num: arts["頭突き"])
-      battleArts.throwing = CValue(name: "投擲", num: arts["投擲"])
-      battleArts.martialArts = CValue(name: "マーシャルアーツ", num: arts["マーシャルアーツ"])
-      battleArts.handGun = CValue(name: "拳銃", num: arts["拳銃"])
-      battleArts.submachineGun = CValue(name: "サブマシンガン", num: arts["サブマシンガン"])
-      battleArts.shotGun = CValue(name: "ショットガン", num: arts["ショットガン"])
-      battleArts.machineGun = CValue(name: "マシンガン", num: arts["マシンガン"])
-      battleArts.rifle = CValue(name: "ライフル", num: arts["ライフル"])
+      battleArts.avoidance = CValue(name: "回避", num: arts.getOrDefault("回避"))
+      battleArts.kick = CValue(name: "キック", num: arts.getOrDefault("キック"))
+      battleArts.hold = CValue(name: "組み付き", num: arts.getOrDefault("組み付き"))
+      battleArts.punch = CValue(name: "こぶし（パンチ）", num: arts.getOrDefault("こぶし（パンチ）"))
+      battleArts.headThrust = CValue(name: "頭突き", num: arts.getOrDefault("頭突き"))
+      battleArts.throwing = CValue(name: "投擲", num: arts.getOrDefault("投擲"))
+      battleArts.martialArts = CValue(name: "マーシャルアーツ", num: arts.getOrDefault("マーシャルアーツ"))
+      battleArts.handGun = CValue(name: "拳銃", num: arts.getOrDefault("拳銃"))
+      battleArts.submachineGun = CValue(name: "サブマシンガン", num: arts.getOrDefault("サブマシンガン"))
+      battleArts.shotGun = CValue(name: "ショットガン", num: arts.getOrDefault("ショットガン"))
+      battleArts.machineGun = CValue(name: "マシンガン", num: arts.getOrDefault("マシンガン"))
+      battleArts.rifle = CValue(name: "ライフル", num: arts.getOrDefault("ライフル"))
       
       arts = html.parseArts("探索技能")
       var findArts: FindArts
-      findArts.firstAid = CValue(name: "応急手当", num: arts["応急手当"])
-      findArts.lockPicking = CValue(name: "鍵開け", num: arts["鍵開け"])
-      findArts.hide = CValue(name: "隠す", num: arts["隠す"])
-      findArts.disappear = CValue(name: "隠れる", num: arts["隠れる"])
-      findArts.ear = CValue(name: "聞き耳", num: arts["聞き耳"])
-      findArts.quietStep = CValue(name: "忍び歩き", num: arts["忍び歩き"])
-      findArts.photography = CValue(name: "写真術", num: arts["写真術"])
-      findArts.psychoAnalysis = CValue(name: "精神分析", num: arts["精神分析"])
-      findArts.tracking = CValue(name: "追跡", num: arts["追跡"])
-      findArts.climbing = CValue(name: "登攀", num: arts["登攀"])
-      findArts.library = CValue(name: "図書館", num: arts["図書館"])
-      findArts.aim = CValue(name: "目星", num: arts["目星"])
+      findArts.firstAid = CValue(name: "応急手当", num: arts.getOrDefault("応急手当"))
+      findArts.lockPicking = CValue(name: "鍵開け", num: arts.getOrDefault("鍵開け"))
+      findArts.hide = CValue(name: "隠す", num: arts.getOrDefault("隠す"))
+      findArts.disappear = CValue(name: "隠れる", num: arts.getOrDefault("隠れる"))
+      findArts.ear = CValue(name: "聞き耳", num: arts.getOrDefault("聞き耳"))
+      findArts.quietStep = CValue(name: "忍び歩き", num: arts.getOrDefault("忍び歩き"))
+      findArts.photography = CValue(name: "写真術", num: arts.getOrDefault("写真術"))
+      findArts.psychoAnalysis = CValue(name: "精神分析", num: arts.getOrDefault("精神分析"))
+      findArts.tracking = CValue(name: "追跡", num: arts.getOrDefault("追跡"))
+      findArts.climbing = CValue(name: "登攀", num: arts.getOrDefault("登攀"))
+      findArts.library = CValue(name: "図書館", num: arts.getOrDefault("図書館"))
+      findArts.aim = CValue(name: "目星", num: arts.getOrDefault("目星"))
       
       arts = html.parseArts("行動技能")
       var actionArts: ActionArts
-      actionArts.driving = CValue(name: "運転", num: arts["運転"])
-      actionArts.repairingMachine = CValue(name: "機械修理", num: arts["機械修理"])
-      actionArts.operatingHeavyMachine = CValue(name: "重機械操作", num: arts["重機械操作"])
-      actionArts.ridingHorse = CValue(name: "乗馬", num: arts["乗馬"])
-      actionArts.swimming = CValue(name: "水泳", num: arts["水泳"])
-      actionArts.creating = CValue(name: "製作", num: arts["製作"])
-      actionArts.control = CValue(name: "操縦", num: arts["操縦"])
-      actionArts.jumping = CValue(name: "跳躍", num: arts["跳躍"])
-      actionArts.repairingElectric = CValue(name: "電気修理", num: arts["電気修理"])
-      actionArts.navigate = CValue(name: "ナビゲート", num: arts["ナビゲート"])
-      actionArts.disguise = CValue(name: "変装", num: arts["変装"])
+      actionArts.driving = CValue(name: "運転", num: arts.getOrDefault("運転"))
+      actionArts.repairingMachine = CValue(name: "機械修理", num: arts.getOrDefault("機械修理"))
+      actionArts.operatingHeavyMachine = CValue(name: "重機械操作", num: arts.getOrDefault("重機械操作"))
+      actionArts.ridingHorse = CValue(name: "乗馬", num: arts.getOrDefault("乗馬"))
+      actionArts.swimming = CValue(name: "水泳", num: arts.getOrDefault("水泳"))
+      actionArts.creating = CValue(name: "製作", num: arts.getOrDefault("製作"))
+      actionArts.control = CValue(name: "操縦", num: arts.getOrDefault("操縦"))
+      actionArts.jumping = CValue(name: "跳躍", num: arts.getOrDefault("跳躍"))
+      actionArts.repairingElectric = CValue(name: "電気修理", num: arts.getOrDefault("電気修理"))
+      actionArts.navigate = CValue(name: "ナビゲート", num: arts.getOrDefault("ナビゲート"))
+      actionArts.disguise = CValue(name: "変装", num: arts.getOrDefault("変装"))
       
       arts = html.parseArts("交渉技能")
       var negotiationArts: NegotiationArts
-      negotiationArts.winOver = CValue(name: "言いくるめ", num: arts["言いくるめ"])
-      negotiationArts.credit = CValue(name: "信用", num: arts["信用"])
-      negotiationArts.haggle = CValue(name: "値切り", num: arts["値切り"])
-      negotiationArts.argue = CValue(name: "説得", num: arts["説得"])
-      negotiationArts.nativeLanguage = CValue(name: "母国語", num: arts["母国語"])
+      negotiationArts.winOver = CValue(name: "言いくるめ", num: arts.getOrDefault("言いくるめ"))
+      negotiationArts.credit = CValue(name: "信用", num: arts.getOrDefault("信用"))
+      negotiationArts.haggle = CValue(name: "値切り", num: arts.getOrDefault("値切り"))
+      negotiationArts.argue = CValue(name: "説得", num: arts.getOrDefault("説得"))
+      negotiationArts.nativeLanguage = CValue(name: "母国語", num: arts.getOrDefault("母国語"))
       
       arts = html.parseArts("知識技能")
       var knowledgeArts: KnowledgeArts
-      knowledgeArts.medicine = CValue(name: "医学", num: arts["医学"])
-      knowledgeArts.occult = CValue(name: "オカルト", num: arts["オカルト"])
-      knowledgeArts.chemistry = CValue(name: "化学", num: arts["化学"])
-      knowledgeArts.cthulhuMythology = CValue(name: "クトゥルフ神話", num: arts["クトゥルフ神話"])
-      knowledgeArts.art = CValue(name: "芸術", num: arts["芸術"])
-      knowledgeArts.accounting = CValue(name: "経理", num: arts["経理"])
-      knowledgeArts.archeology = CValue(name: "考古学", num: arts["考古学"])
-      knowledgeArts.computer = CValue(name: "コンピューター", num: arts["コンピューター"])
-      knowledgeArts.psychology = CValue(name: "心理学", num: arts["心理学"])
-      knowledgeArts.anthropology = CValue(name: "人類学", num: arts["人類学"])
-      knowledgeArts.biology = CValue(name: "生物学", num: arts["生物学"])
-      knowledgeArts.geology = CValue(name: "地質学", num: arts["地質学"])
-      knowledgeArts.electronicEngineering = CValue(name: "電子工学", num: arts["電子工学"])
-      knowledgeArts.astronomy = CValue(name: "天文学", num: arts["天文学"])
-      knowledgeArts.naturalHistory = CValue(name: "博物学", num: arts["博物学"])
-      knowledgeArts.physics = CValue(name: "物理学", num: arts["物理学"])
-      knowledgeArts.law = CValue(name: "法律", num: arts["法律"])
-      knowledgeArts.pharmacy = CValue(name: "薬学", num: arts["薬学"])
-      knowledgeArts.history = CValue(name: "歴史", num: arts["歴史"])
+      knowledgeArts.medicine = CValue(name: "医学", num: arts.getOrDefault("医学"))
+      knowledgeArts.occult = CValue(name: "オカルト", num: arts.getOrDefault("オカルト"))
+      knowledgeArts.chemistry = CValue(name: "化学", num: arts.getOrDefault("化学"))
+      knowledgeArts.cthulhuMythology = CValue(name: "クトゥルフ神話", num: arts.getOrDefault("クトゥルフ神話"))
+      knowledgeArts.art = CValue(name: "芸術", num: arts.getOrDefault("芸術"))
+      knowledgeArts.accounting = CValue(name: "経理", num: arts.getOrDefault("経理"))
+      knowledgeArts.archeology = CValue(name: "考古学", num: arts.getOrDefault("考古学"))
+      knowledgeArts.computer = CValue(name: "コンピューター", num: arts.getOrDefault("コンピューター"))
+      knowledgeArts.psychology = CValue(name: "心理学", num: arts.getOrDefault("心理学"))
+      knowledgeArts.anthropology = CValue(name: "人類学", num: arts.getOrDefault("人類学"))
+      knowledgeArts.biology = CValue(name: "生物学", num: arts.getOrDefault("生物学"))
+      knowledgeArts.geology = CValue(name: "地質学", num: arts.getOrDefault("地質学"))
+      knowledgeArts.electronicEngineering = CValue(name: "電子工学", num: arts.getOrDefault("電子工学"))
+      knowledgeArts.astronomy = CValue(name: "天文学", num: arts.getOrDefault("天文学"))
+      knowledgeArts.naturalHistory = CValue(name: "博物学", num: arts.getOrDefault("博物学"))
+      knowledgeArts.physics = CValue(name: "物理学", num: arts.getOrDefault("物理学"))
+      knowledgeArts.law = CValue(name: "法律", num: arts.getOrDefault("法律"))
+      knowledgeArts.pharmacy = CValue(name: "薬学", num: arts.getOrDefault("薬学"))
+      knowledgeArts.history = CValue(name: "歴史", num: arts.getOrDefault("歴史"))
       
       let pc = Pc(id: id, name: pcName, tags: tags, url: newUrl,
                   param: Param(ability: a,
@@ -522,7 +543,7 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
         # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
         if i != urls.len - 1 and not oneLine:
           data.add(",")
-        echo data
+        yield data
       sleep(waitTime)
       debug &"Scraping end:"
     if useSort:
@@ -535,22 +556,26 @@ proc processJson(urls: seq[string], client: HttpClient, waitTime: int, oneLine: 
         # 1行ずつデータを出力するが、最後のデータのときはカンマ区切りが不要
         if i != pcList.len - 1 and not oneLine:
           data.add(",")
-        echo data
+        yield data
 
 proc scrape(format="csv", recursive=false, debug=false, waitTime=1000, oneLine=false, sort=false, urls: seq[string]): int =
   ## キャラクター保管所から探索者の能力値をスクレイピングしてきて、
   ## 任意のフォーマットで出力する。
   if debug:
     addHandler(newConsoleLogger(lvlAll, verboseFmtStr, useStderr=true))
+  else:
+    addHandler(newConsoleLogger(lvlWarn, verboseFmtStr, useStderr=true))
 
   debug &"main start:"
   let client = newHttpClient()
   let pcUrls = fetchPcUrls(urls, client, waitTime)
   case format
   of "csv":
-    processCsv(pcUrls, client, waitTime)
+    for line in processCsv(pcUrls, client, waitTime):
+      echo line
   of "json":
-    processJson(pcUrls, client, waitTime, oneLine, sort)
+    for line in processJson(pcUrls, client, waitTime, oneLine, sort):
+      echo line
   debug &"main end:"
 
 when isMainModule:

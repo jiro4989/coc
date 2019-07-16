@@ -2,7 +2,7 @@ import unittest
 
 import coc
 
-import tables, strformat
+import tables, strformat, httpclient, marshal, strutils, json
 
 suite "proc getTags":
   test "Empty tag":
@@ -170,3 +170,35 @@ suite "proc hasListItem":
   test "false":
     let html = "tests/list_out.html".readFile
     check not html.hasListItem
+
+let notFoundHtml = readFile("tests/404.html")
+
+suite "proc is404NotFoundPage":
+  test "true":
+    check notFoundHtml.is404NotFoundPage
+  test "false":
+    check not p1html.is404NotFoundPage
+
+let client = newHttpClient()
+
+suite "proc processCsv":
+  test "Normal":
+    discard
+
+type PCs* = seq[Pc]
+suite "proc processJson":
+  setup:
+    var rets: seq[string]
+    let urls = @["https://charasheet.vampire-blood.net/mebb31fcc04f70c0e8c7b272594393e10"]
+  test "Normal: oneline = false":
+    for ret in processJson(urls, client, 1000, false, false):
+      rets.add(ret)
+    discard rets.join.parseJson.to(PCs)
+  test "Normal: oneline = true":
+    for ret in processJson(urls, client, 1000, true, false):
+      rets.add(ret)
+    discard rets.join.parseJson.to(PC)
+  test "Normal: oneline = true, sort = true":
+    for ret in processJson(urls, client, 1000, true, true):
+      rets.add(ret)
+    discard rets.join.parseJson.to(PC)
