@@ -185,6 +185,69 @@ suite "proc processCsv":
   test "Normal":
     discard
 
+template checkProcessJson(p: Pc) =
+  block:
+    let pc = p[]
+    check pc.param.battleArts.avoidance.num != 0
+    check pc.param.battleArts.kick.num != 0
+    check pc.param.battleArts.hold.num != 0
+    check pc.param.battleArts.punch.num != 0
+    check pc.param.battleArts.headThrust.num != 0
+    check pc.param.battleArts.throwing.num != 0
+    check pc.param.battleArts.martialArts.num != 0
+    check pc.param.battleArts.handGun.num != 0
+    check pc.param.battleArts.submachineGun.num != 0
+    check pc.param.battleArts.shotGun.num != 0
+    check pc.param.battleArts.machineGun.num != 0
+    check pc.param.battleArts.rifle.num != 0
+    check pc.param.findArts.firstAid.num != 0
+    check pc.param.findArts.lockPicking.num != 0
+    check pc.param.findArts.hide.num != 0
+    check pc.param.findArts.disappear.num != 0
+    check pc.param.findArts.ear.num != 0
+    check pc.param.findArts.quietStep.num != 0
+    check pc.param.findArts.photography.num != 0
+    check pc.param.findArts.psychoAnalysis.num != 0
+    check pc.param.findArts.tracking.num != 0
+    check pc.param.findArts.climbing.num != 0
+    check pc.param.findArts.library.num != 0
+    check pc.param.findArts.aim.num != 0
+    check pc.param.actionArts.driving.num != 0
+    check pc.param.actionArts.repairingMachine.num != 0
+    check pc.param.actionArts.operatingHeavyMachine.num != 0
+    check pc.param.actionArts.ridingHorse.num != 0
+    check pc.param.actionArts.swimming.num != 0
+    check pc.param.actionArts.creating.num != 0
+    check pc.param.actionArts.control.num != 0
+    check pc.param.actionArts.jumping.num != 0
+    check pc.param.actionArts.repairingElectric.num != 0
+    check pc.param.actionArts.navigate.num != 0
+    check pc.param.actionArts.disguise.num != 0
+    check pc.param.negotiationArts.winOver.num != 0
+    check pc.param.negotiationArts.credit.num != 0
+    check pc.param.negotiationArts.haggle.num != 0
+    check pc.param.negotiationArts.argue.num != 0
+    check pc.param.negotiationArts.nativeLanguage.num != 0
+    check pc.param.knowledgeArts.medicine.num != 0
+    check pc.param.knowledgeArts.occult.num != 0
+    check pc.param.knowledgeArts.chemistry.num != 0
+    check pc.param.knowledgeArts.cthulhuMythology.num == 0
+    check pc.param.knowledgeArts.art.num != 0
+    check pc.param.knowledgeArts.accounting.num != 0
+    check pc.param.knowledgeArts.archeology.num != 0
+    check pc.param.knowledgeArts.computer.num != 0
+    check pc.param.knowledgeArts.psychology.num != 0
+    check pc.param.knowledgeArts.anthropology.num != 0
+    check pc.param.knowledgeArts.biology.num != 0
+    check pc.param.knowledgeArts.geology.num != 0
+    check pc.param.knowledgeArts.electronicEngineering.num != 0
+    check pc.param.knowledgeArts.astronomy.num != 0
+    check pc.param.knowledgeArts.naturalHistory.num != 0
+    check pc.param.knowledgeArts.physics.num != 0
+    check pc.param.knowledgeArts.law.num != 0
+    check pc.param.knowledgeArts.pharmacy.num != 0
+    check pc.param.knowledgeArts.history.num != 0
+
 type PCs* = seq[Pc]
 suite "proc processJson":
   setup:
@@ -193,12 +256,15 @@ suite "proc processJson":
   test "Normal: oneline = false":
     for ret in processJson(urls, client, 1000, false, false):
       rets.add(ret)
-    discard rets.join.parseJson.to(PCs)
+    let pc = rets.join.parseJson.to(seq[Pc])[0]
+    checkProcessJson(pc)
   test "Normal: oneline = true":
     for ret in processJson(urls, client, 1000, true, false):
       rets.add(ret)
-    discard rets.join.parseJson.to(PC)
+    let pc = rets.join.parseJson.to(Pc)
+    checkProcessJson(pc)
   test "Normal: oneline = true, sort = true":
     for ret in processJson(urls, client, 1000, true, true):
       rets.add(ret)
-    discard rets.join.parseJson.to(PC)
+    let pc = rets.join.parseJson.to(Pc)
+    checkProcessJson(pc)
