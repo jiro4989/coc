@@ -1,14 +1,15 @@
 :toc: left
 :sectnums:
 
-= clitools
+= coc
 
 image:https://travis-ci.org/jiro4989/coc.svg?branch=master["Build Status", link="https://travis-ci.org/jiro4989/coc"]
 image:https://ci.appveyor.com/api/projects/status/w9ihom08n09vmiti/branch/master?svg=true["Build status", link="https://ci.appveyor.com/project/jiro4989/coc"]
 
 キャラクター保管所のクトゥルフ探索者のパラメータを様々な形式で生成する。
 
-まだ開発中。
+https://github.com/jiro4989/coc-radar[coc-radar]で使用していたが、結果的に要らなくなったので
+開発は中止。
 
 == Development
 
@@ -26,12 +27,6 @@ nimble -v
   nimble v0.10.2 compiled at 2019-06-15 22:10:02
   git hash: couldn't determine git hash
 
-== Usage
-
-[source,bash]
-----
-coc "https://charasheet.vampire-blood.net/list_coc.html?tag=jiro" -f json
-----
 
 == License
 
